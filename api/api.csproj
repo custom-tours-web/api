@@ -3,7 +3,7 @@
   <!-- Project-Specific Metadata -->
   <!-- TargetFramework, Nullable, and ImplicitUsings were removed because they are inherited from Directory.Build.props -->
   <PropertyGroup>
-    <Title>Custom Tours & Travels Web API</Title>
+    <Title>Custom Tours &amp; Travels Web API</Title>
     <Version>1.0.0</Version>
     <Description>Production Backend API for the Custom Tours platform</Description>
     <UserSecretsId></UserSecretsId>
