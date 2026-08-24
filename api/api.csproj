@@ -25,6 +25,7 @@
   <ItemGroup>
 
     <!-- Versions are now strictly managed by props -->
+    <PackageReference Include="Microsoft.OpenApi" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
