@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Integration & BDD Test Project Configuration -->
+  <PropertyGroup>
+    <!-- Triggers test rules and Reqnroll validation -->
+    <IsTestProject>true</IsTestProject>
+
+    <!-- Explicitly prevents integration tests from being published or packaged -->
+    <IsPackable>false</IsPackable>
+    <IsPublishable>false</IsPublishable>
+
+    <!-- Preserves runtime assemblies and .deps.json required by WebApplicationFactory -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <!-- BDD Configuration Asset -->
+  <ItemGroup>
+    <None Include="reqnroll.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Package Dependencies -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit.Analyzers" />
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="Reqnroll" />
+    <PackageReference Include="Reqnroll.NUnit" />
+    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" />
+    <PackageReference Include="coverlet.collector" />
+  </ItemGroup>
+
+  <!-- Global Usings for BDD & Testing -->
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+    <Using Include="Reqnroll" />
+  </ItemGroup>
+
+  <!-- System Under Test (SUT) Reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\API\API.csproj" />
+  </ItemGroup>
+
+</Project>

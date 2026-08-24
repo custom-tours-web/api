@@ -1,0 +1,33 @@
+{
+  "language": {
+    "feature": "en-US",
+    "binding": "en-US"
+  },
+
+  "bindingCulture": {
+    "name": "en-US"
+  },
+
+  "generator": {
+    "allowDebugGeneratedFiles": false,
+    "allowRowTests": true,
+    "addNonParallelizableMarkerForTags": [
+      "sequential",
+      "database",
+      "nonparallelizable"
+    ],
+    "disableFriendlyTestNames": false
+  },
+
+  "runtime": {
+    "missingOrPendingStepsOutcome": "Error",
+    "obsoleteBehavior": "Error",
+    "stopAtFirstError": false
+  },
+
+  "trace": {
+    "stepDefinitionSkeletonStyle": "CucumberExpressionAttribute"
+  },
+
+  "bindingAssemblies": []
+}
