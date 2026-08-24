@@ -1,0 +1,32 @@
+<Project>
+
+  <!-- Security & Policy Enforcement -->
+  <!-- Prevents test projects from being packed or accidentally deployed -->
+  <Target Name="EnforceNoPackOrPublishTests" BeforeTargets="Pack;Publish" Condition="'$(IsTestProject)' == 'true' Or $(MSBuildProjectName.EndsWith('.Tests'))">
+    <PropertyGroup>
+      <IsPackable>false</IsPackable>
+      <IsPublishable>false</IsPublishable>
+    </PropertyGroup>
+    <Error Text="Security/Policy Violation: Test projects ($(MSBuildProjectName)) must not be packed into NuGet packages or published to production environments." />
+  </Target>
+
+  <!-- BDD / Reqnroll Configuration Validation -->
+  <Target Name="ValidateReqnrollConfig" BeforeTargets="Build" Condition="'$(IsTestProject)' == 'true' And @(PackageReference->AnyHaveMetadataValue('Identity', 'Reqnroll'))">
+    <PropertyGroup>
+      <_ReqnrollJsonExists Condition="Exists('$(MSBuildProjectDirectory)\reqnroll.json') Or Exists('$(MSBuildProjectDirectory)\Reqnroll.json')">true</_ReqnrollJsonExists>
+    </PropertyGroup>
+    <Error Text="Reqnroll Configuration Missing: $(MSBuildProjectName) requires a 'reqnroll.json' file in the project root for proper BDD execution." Condition="'$(_ReqnrollJsonExists)' != 'true'" />
+  </Target>
+
+  <!-- Deployment Safety Gates -->
+  <Target Name="PreventDebugPublish" BeforeTargets="Publish">
+    <Error Text="Release Build Required: You are attempting to publish a '$(Configuration)' build. Only 'Release' builds are permitted to be published." Condition="'$(Configuration)' != 'Release'" />
+  </Target>
+
+  <!-- Legacy Framework Prevention -->
+  <Target Name="EnforceTargetFramework" BeforeTargets="CoreCompile">
+    <Error Text="Legacy Framework Detected: $(MSBuildProjectName) is targeting $(TargetFramework). Only net10.0 or higher is allowed."
+           Condition="!$(TargetFramework.StartsWith('net10'))" />
+  </Target>
+
+</Project>
