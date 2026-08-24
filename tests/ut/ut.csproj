@@ -25,5 +25,10 @@
   <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
+  
+  <!-- Project References -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\API\API.csproj" />
+  </ItemGroup>
 
 </Project>
