@@ -8,7 +8,7 @@ var verbosityLevel = Argument("verbosity", DotNetVerbosity.Minimal);
 
 // Centralized paths prevent typos and make maintenance easier
 var solutionFile = "./api.slnx";
-var apiProject = "./API/api.csproj";
+var apiProject = "./api/api.csproj";
 var testProjectsGlob = "./Tests/**/*.csproj";
 
 var artifactsDir = MakeAbsolute(Directory("./artifacts"));
