@@ -15,7 +15,6 @@
   <!-- Package Versions -->
   <ItemGroup>
     <!-- Core & Documentation -->
-    <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
     <PackageVersion Include="Microsoft.OpenApi" Version="2.12.2" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(CoreVersion)" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.17.1" />
@@ -33,6 +32,7 @@
     <PackageVersion Include="NUnit" Version="4.6.1" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.14.0" />
+    <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
     <!-- Reqnroll (BDD) -->
     <PackageVersion Include="Reqnroll" Version="$(ReqnrollVersion)" />
     <PackageVersion Include="Reqnroll.NUnit" Version="$(ReqnrollVersion)" />
