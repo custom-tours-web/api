@@ -1,8 +1,3 @@
-// Tooling & Addins
-#tool nuget:?package=Cake.Common&version=6.2.0
-#tool nuget:?package=Cake.DotNetTool.Module&version=6.2.0
-#tool nuget:?package=ReportGenerator&version=5.5.11
-
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS & VARIABLES
 //////////////////////////////////////////////////////////////////////
@@ -12,14 +7,14 @@ var configuration = Argument("configuration", "Release");
 var verbosityLevel = Argument("verbosity", DotNetVerbosity.Minimal);
 
 // Centralized paths prevent typos and make maintenance easier
-var solutionFile = "./api.sln";
+var solutionFile = "./api.slnx";
 var apiProject = "./API/api.csproj";
 var testProjectsGlob = "./Tests/**/*.csproj";
 
-var artifactsDir = Directory("./artifacts");
-var testResultsDir = artifactsDir + Directory("TestResults");
-var publishDir = artifactsDir + Directory("publish");
-var coverageReportDir = testResultsDir + Directory("Report");
+var artifactsDir = MakeAbsolute(Directory("./artifacts"));
+var testResultsDir = artifactsDir.Combine(Directory("TestResults"));
+var publishDir = artifactsDir.Combine(Directory("publish"));
+var coverageReportDir = testResultsDir.Combine(Directory("Report"));
 
 //////////////////////////////////////////////////////////////////////
 // LIFECYCLE HOOKS
@@ -84,26 +79,27 @@ Task("Test")
 
     foreach(var project in projects)
     {
+        var projectName = project.GetFilenameWithoutExtension().ToString();
+
+        // Gets the absolute string path (e.g., C:/Repo/artifacts/TestResults/ut)
+        var absoluteProjectTestResultsDir = testResultsDir.Combine(Directory(projectName)).FullPath;
+
         DotNetTest(project.FullPath, new DotNetTestSettings {
             Configuration = configuration,
-            NoBuild = true,    // Speeds up test since Build task already ran
+            NoBuild = true,
             NoRestore = true,
             Verbosity = verbosityLevel,
-            Logger = "trx",
-            ArgumentCustomization = args => args.Append("--collect:\"XPlat Code Coverage\""),
-            ResultsDirectory = testResultsDir
+            // 👇 Forces the TRX logger to use the absolute root path
+            ResultsDirectory = absoluteProjectTestResultsDir,
+
+            ArgumentCustomization = args => args
+                .Append("--logger \"trx;LogFileName=test-results.trx\"")
+                .Append("/p:CollectCoverage=true")
+                .Append("/p:CoverletOutputFormat=cobertura")
+                // 👇 Forces Coverlet to use the absolute root path
+                .Append($"/p:CoverletOutput=\"{absoluteProjectTestResultsDir}/\"")
         });
     }
-
-    // 📊 Generate HTML Coverage Report automatically
-    Information("📊 Generating Coverage Report...");
-    ReportGenerator(
-        GetFiles($"{testResultsDir}/**/coverage.cobertura.xml"),
-        coverageReportDir,
-        new ReportGeneratorSettings {
-            ReportTypes = new[] { ReportGeneratorReportType.Html }
-        }
-    );
 });
 
 Task("Package")
@@ -112,8 +108,6 @@ Task("Package")
 {
     DotNetPublish(apiProject, new DotNetPublishSettings {
         Configuration = configuration,
-        NoBuild = true,
-        NoRestore = true,
         OutputDirectory = publishDir,
         Verbosity = verbosityLevel
     });
