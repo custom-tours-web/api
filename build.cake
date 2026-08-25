@@ -14,7 +14,6 @@ var testProjectsGlob = "./tests/**/*.csproj";
 var artifactsDir = MakeAbsolute(Directory("./artifacts"));
 var testResultsDir = artifactsDir.Combine(Directory("TestResults"));
 var publishDir = artifactsDir.Combine(Directory("publish"));
-var coverageReportDir = testResultsDir.Combine(Directory("Report"));
 
 //////////////////////////////////////////////////////////////////////
 // LIFECYCLE HOOKS

@@ -89,8 +89,8 @@ jobs:
         uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: coverage-html-report
-          path: artifacts/TestResults/Report/
+          name: test-results
+          path: artifacts/TestResults/
           retention-days: 7
 
       - name: 🚀 Upload Application Publish Artifact
