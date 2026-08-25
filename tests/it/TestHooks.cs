@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Reqnroll.BoDi;
 
-namespace IT;
+namespace it;
 
 /// <summary>
 /// Provides shared HTTP client and WebApplicationFactory setup for API integration tests.
