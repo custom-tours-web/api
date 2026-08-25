@@ -32,7 +32,7 @@
     <PackageReference Include="Reqnroll" />
     <PackageReference Include="Reqnroll.NUnit" />
     <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" />
-    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="coverlet.msbuild" />
   </ItemGroup>
 
   <!-- Global Usings for BDD & Testing -->
