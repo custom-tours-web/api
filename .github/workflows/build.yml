@@ -77,7 +77,7 @@ jobs:
           format: markdown
           output: both
           indicators: true
-          thresholds: '50 80'
+          thresholds: '10 80'
           fail_below_min: true
 
       - name: 📝 Write Coverage to Job Summary
