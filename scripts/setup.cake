@@ -6,11 +6,11 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var verbosityLevel = Argument("verbosity", DotNetVerbosity.Minimal);
 
-var solutionFile = "./api.slnx";
-var apiProject = "./api/api.csproj";
-var testProjectsGlob = "./tests/**/*.csproj";
+var solutionFile = "../api.slnx";
+var apiProject = "../api/api.csproj";
+var testProjectsGlob = "../tests/**/*.csproj";
 
-var artifactsDir = MakeAbsolute(Directory("./artifacts"));
+var artifactsDir = MakeAbsolute(Directory("../artifacts"));
 var testResultsDir = artifactsDir.Combine(Directory("TestResults"));
 var publishDir = artifactsDir.Combine(Directory("publish"));
 
