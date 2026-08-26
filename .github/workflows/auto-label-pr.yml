@@ -47,3 +47,17 @@ jobs:
           else
             echo "Branch name does not match known prefixes. No labels added."
           fi
+
+      - name: 👤 Assign Code Reviewers
+        # We only want to auto-assign when the PR is initially created, not on every new commit
+        if: github.event.action == 'opened'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          Write-Host "Assigning default reviewers to PR #$env:PR_NUMBER"
+
+          gh pr edit $env:PR_NUMBER --add-reviewer "hariofficial"
+
+          # NOTE: If you are using a GitHub Organization, you can also assign entire teams:
+          # gh pr edit $env:PR_NUMBER --add-reviewer "your-org/backend-team"
