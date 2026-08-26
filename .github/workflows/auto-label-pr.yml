@@ -1,0 +1,49 @@
+name: Auto Label PR
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+# Required permission to add labels to PRs
+permissions:
+  pull-requests: write
+
+jobs:
+  apply-labels:
+    name: 🏷️ Apply Labels
+    runs-on: windows-latest
+
+    steps:
+      - name: Evaluate Branch Name and Apply Label
+        shell: bash
+        env:
+          # Automatically provided by GitHub Actions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          echo "Evaluating branch name: $BRANCH_NAME"
+
+          # Check for Feature branches
+          if [[ "$BRANCH_NAME" == feature/* ]] || [[ "$BRANCH_NAME" == feat/* ]]; then
+            gh pr edit "$PR_NUMBER" --add-label "enhancement"
+            echo "Added 'enhancement' label."
+
+          # Check for Bugfix branches
+          elif [[ "$BRANCH_NAME" == bug/* ]] || [[ "$BRANCH_NAME" == fix/* ]] || [[ "$BRANCH_NAME" == bugfix/* ]]; then
+            gh pr edit "$PR_NUMBER" --add-label "bug"
+            echo "Added 'bug' label."
+
+          # Check for Refactor/Chore branches
+          elif [[ "$BRANCH_NAME" == refactor/* ]] || [[ "$BRANCH_NAME" == chore/* ]]; then
+            gh pr edit "$PR_NUMBER" --add-label "chore"
+            echo "Added 'chore' label."
+
+          # Check for Documentation branches
+          elif [[ "$BRANCH_NAME" == docs/* ]]; then
+            gh pr edit "$PR_NUMBER" --add-label "documentation"
+            echo "Added 'documentation' label."
+
+          else
+            echo "Branch name does not match known prefixes. No labels added."
+          fi
