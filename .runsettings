@@ -27,11 +27,11 @@
         <Configuration>
           <Format></Format>
           <Exclude>
-            [API]API.DTOs.*,
-            [API]API.Models.*,
-            [API]API.Datas.*,
-            [API]API.Mappers.*,
-            [API]API.Middlewares.*
+            [api]api.DTOs.*,
+            [api]api.Models.*,
+            [api]api.Datas.*,
+            [api]api.Mappers.*,
+            [api]api.Middlewares.*
           </Exclude>
           <ExcludeByFile>
             **/Program.cs,
