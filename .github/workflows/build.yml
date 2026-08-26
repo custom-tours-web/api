@@ -57,16 +57,16 @@ jobs:
       # ========================================================================
 
       - name: 🧹 Clean & Restore
-        run: dotnet cake build.cake --target="Restore"
+        run: dotnet cake ./scripts/build.cake --target="Restore"
 
       - name: 🏗️ Build App
-        run: dotnet cake build.cake --target="Build" --exclusive
+        run: dotnet cake ./scripts/build.cake --target="Build" --exclusive
 
       - name: 🧪 Run Tests
-        run: dotnet cake build.cake --target="Test" --exclusive
+        run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
 
       - name: 📦 Package App
-        run: dotnet cake build.cake --target="Package" --exclusive
+        run: dotnet cake ./scripts/build.cake --target="Package" --exclusive
 
       # ========================================================================
       # 📊 Reporting & Artifacts
