@@ -1,0 +1,20 @@
+name: 📏 PR Size Labeler
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label-size:
+    name: Assign Size Label
+    runs-on: ubuntu-latest
+    steps:
+      - name: Size Labeler
+        uses: pascalgn/size-label-action@v0.5.7
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          # Files to ignore when calculating lines of code (e.g., auto-generated files)
+          IGNORED: "package-lock.json, yarn.lock, *.csproj, docs/*"
