@@ -49,7 +49,7 @@
   </PropertyGroup>
 
   <!-- Test Project Defaults -->
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or  (MSBuildProjectName.EndsWith('.Tests'))">
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or  $(MSBuildProjectName.EndsWith('.Tests'))">
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateProgramFile>false</GenerateProgramFile>
     <IsPackable>false</IsPackable>
