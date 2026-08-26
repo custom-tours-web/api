@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   build-test-and-package:
-    name: Build, Test, and Verify
+    name: 📊 Build, Test, and Verify
     runs-on: ubuntu-latest
 
     env:
@@ -51,10 +51,6 @@ jobs:
       - name: 🔧 Restore Local Tools
         # Restores dotnet-cake and reportgenerator if they are in dotnet-tools.json
         run: dotnet tool restore
-
-      # ========================================================================
-      # 🎂 Cake Pipeline Execution
-      # ========================================================================
 
       - name: 🧹 Clean & Restore
         run: dotnet cake ./scripts/build.cake --target="Restore"
