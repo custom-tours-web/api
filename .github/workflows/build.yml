@@ -52,9 +52,21 @@ jobs:
         # Restores dotnet-cake and reportgenerator if they are in dotnet-tools.json
         run: dotnet tool restore
 
-      - name: 🎂 Execute Cake Pipeline
-        # Hands off the entire lifecycle (Clean -> Restore -> Build -> Test -> Package) to Cake
-        run: dotnet cake build.cake --target="Default" --configuration="Release"
+      # ========================================================================
+      # 🎂 Cake Pipeline Execution
+      # ========================================================================
+
+      - name: 🧹 Clean & Restore
+        run: dotnet cake build.cake --target="Restore"
+
+      - name: 🏗️ Build App
+        run: dotnet cake build.cake --target="Build" --exclusive
+
+      - name: 🧪 Run Tests
+        run: dotnet cake build.cake --target="Test" --exclusive
+
+      - name: 📦 Package App
+        run: dotnet cake build.cake --target="Package" --exclusive
 
       # ========================================================================
       # 📊 Reporting & Artifacts
@@ -85,17 +97,17 @@ jobs:
         # Uses native bash to pipe the markdown file to the GitHub Actions UI
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
 
-      - name: 📦 Upload HTML Coverage Report Artifact
+      - name: 📦 Upload Test Report Artifact
         uses: actions/upload-artifact@v7
         if: always()
         with:
           name: test-results
           path: artifacts/TestResults/
-          retention-days: 7
+          retention-days: 1
 
       - name: 🚀 Upload Application Publish Artifact
         uses: actions/upload-artifact@v7
         with:
           name: api-publish
           path: artifacts/publish/
-          retention-days: 7
+          retention-days: 1
