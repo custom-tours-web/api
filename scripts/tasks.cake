@@ -17,7 +17,7 @@ Task("Clean")
 .OnError(exception =>
 {
     Error($"[Clean Task] 🚨 Failed to clean directories. Error: {exception.Message}");
-    throw; // Rethrow to fail the pipeline
+    throw exception; // Explicitly pass the exception variable
 });
 
 Task("Restore")
@@ -27,14 +27,13 @@ Task("Restore")
     Information($"🔧 Restoring NuGet packages for: {solutionFile}");
     DotNetRestore(solutionFile, new DotNetRestoreSettings {
         Verbosity = verbosityLevel,
-        // Enforce deterministic CI restorations
         LockedMode = EnvironmentVariable("CI") == "true"
     });
 })
 .OnError(exception =>
 {
     Error($"[Restore Task] 🚨 Package restore failed. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 Task("Build")
@@ -44,14 +43,14 @@ Task("Build")
     Information($"🏗️ Building solution: {solutionFile} (Configuration: {configuration})");
     DotNetBuild(solutionFile, new DotNetBuildSettings {
         Configuration = configuration,
-        NoRestore = true, // Speeds up build since Restore task already ran
+        NoRestore = true,
         Verbosity = verbosityLevel
     });
 })
 .OnError(exception =>
 {
     Error($"[Build Task] 🚨 Build failed compilation. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 Task("Test")
@@ -67,7 +66,6 @@ Task("Test")
         var projectName = project.GetFilenameWithoutExtension().ToString();
         Information($"\n  ▶️ Testing project: {projectName}");
 
-        // Gets the absolute string path (e.g., C:/Repo/artifacts/TestResults/ut)
         var absoluteProjectTestResultsDir = testResultsDir.Combine(Directory(projectName)).FullPath;
 
         try
@@ -77,14 +75,11 @@ Task("Test")
                 NoBuild = true,
                 NoRestore = true,
                 Verbosity = verbosityLevel,
-                // 👇 Forces the TRX logger to use the absolute root path
                 ResultsDirectory = absoluteProjectTestResultsDir,
-
                 ArgumentCustomization = args => args
                     .Append("--logger \"trx;LogFileName=test-results.trx\"")
                     .Append("/p:CollectCoverage=true")
                     .Append("/p:CoverletOutputFormat=cobertura")
-                    // 👇 Forces Coverlet to use the absolute root path
                     .Append($"/p:CoverletOutput=\"{absoluteProjectTestResultsDir}/\"")
             });
             Information($"  ✅ Tests passed for {projectName}");
@@ -92,12 +87,10 @@ Task("Test")
         catch (Exception ex)
         {
             Error($"  ❌ Tests FAILED for {projectName}. Error: {ex.Message}");
-            // Add to list but continue running the rest of the test projects
             failedProjects.Add(projectName);
         }
     }
 
-    // Evaluate if any test projects failed during the loop
     if (failedProjects.Any())
     {
         throw new Exception($"Test failures detected in {failedProjects.Count} project(s): {string.Join(", ", failedProjects)}");
@@ -118,7 +111,7 @@ Task("Package")
 .OnError(exception =>
 {
     Error($"[Package Task] 🚨 Publishing failed. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 Task("Default")
