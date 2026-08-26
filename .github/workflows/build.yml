@@ -120,8 +120,17 @@ jobs:
       - name: 📝 Write Coverages to Job Summary
         if: always()
         run: |
+          # Add Unit Test section with spacing
           echo "### 🧪 Unit Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           cat ut-coverage-results.md >> $GITHUB_STEP_SUMMARY
-          echo "<br>" >> $GITHUB_STEP_SUMMARY
+
+          # Add spacing and a horizontal divider
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Add Integration Test section with spacing
           echo "### 🔗 Integration Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
