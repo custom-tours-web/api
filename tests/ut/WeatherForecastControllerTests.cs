@@ -1,5 +1,4 @@
 using api.Controllers;
-// Note: You may need to add a using statement for the namespace containing the WeatherForecast model.
 
 namespace ut;
 
@@ -50,11 +49,15 @@ public class WeatherForecastControllerTests
         {
             var forecast = result[i];
 
-            // Check that temperatures are within the -20 to 55 range
-            Assert.That(forecast.TemperatureC, Is.GreaterThanOrEqualTo(-20).And.LessThanOrEqualTo(55));
+            using (Assert.EnterMultipleScope())
+            {
+                // Check that temperatures are within the -20 to 55 range
+                Assert.That(forecast.TemperatureC, Is.GreaterThanOrEqualTo(-20).And.LessThanOrEqualTo(55));
 
-            // Check that the summary is one of the predefined strings
-            Assert.That(_expectedSummaries, Does.Contain(forecast.Summary));
+                // Check that the summary is one of the predefined strings
+                Assert.That(_expectedSummaries, Does.Contain(forecast.Summary));
+            }
+
 
             // Check that dates are sequential starting from tomorrow
             var expectedDate = DateOnly.FromDateTime(DateTime.Now.AddDays(i + 1));
