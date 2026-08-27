@@ -2,12 +2,11 @@ name: 🏷️ Lint PR Title
 
 on:
   pull_request:
-    # Important: 'edited' is required so if a PR fails the check,
-    # the developer can fix the title and the action will re-run automatically.
     types: [opened, edited, synchronize, reopened]
 
 permissions:
   pull-requests: read
+  statuses: write
 
 jobs:
   lint-title:
