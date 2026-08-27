@@ -23,11 +23,10 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: 🧪 Run Unit Tests
+      - name: 🧪 Run Tests
         # Crucial: If tests fail, we still want the next step to run!
         continue-on-error: true
-        # Output results to a .trx file in a specific folder
-        run: dotnet test --logger "trx;LogFileName=test-results.trx" --results-directory ./TestResults
+        run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
 
       - name: 📊 Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -35,4 +34,4 @@ jobs:
         if: always()
         with:
           # Point the action to the generated .trx files
-          files: "**/TestResults/*.trx"
+          files: "artifacts/TestResults/**/*.trx"
