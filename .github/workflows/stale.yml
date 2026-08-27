@@ -16,7 +16,7 @@ jobs:
     name: Mark and Close Stale Items
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v9
+      - uses: actions/stale@v11
         with:
           # ------------------------------------
           # Timing Configuration (in days)
