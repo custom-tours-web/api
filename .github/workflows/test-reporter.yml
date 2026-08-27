@@ -13,7 +13,7 @@ permissions:
 jobs:
   test-and-report:
     name: Run Tests and Report
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
       - name: ⚙️ Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x' # Update to your project's .NET version
+          dotnet-version: '10.x'
 
       - name: 🧪 Run Unit Tests
         # Crucial: If tests fail, we still want the next step to run!
