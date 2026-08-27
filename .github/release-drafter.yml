@@ -1,0 +1,33 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+# Categorize PRs based on the labels we set up earlier
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'enhancement'
+      - 'feature'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+      - 'fix'
+  - title: '♻️ Maintenance & Refactoring'
+    labels:
+      - 'chore'
+      - 'refactor'
+      - 'dependencies'
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+      - 'docs'
+
+# What to show if a PR has no recognized labels
+exclude-labels:
+  - 'skip-changelog'
+
+# The format of the final release notes
+template: |
+  ## What's Changed
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION

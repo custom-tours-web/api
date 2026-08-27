@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- Project-Specific Metadata -->
+  <!-- TargetFramework, Nullable, and ImplicitUsings were removed because they are inherited from Directory.Build.props -->
+  <PropertyGroup>
+    <Title>Custom Tours &amp; Travels Web API</Title>
+    <Version>1.0.0</Version>
+    <Description>Production Backend API for the Custom Tours platform</Description>
+    <UserSecretsId></UserSecretsId>
+  </PropertyGroup>
+
+  <!-- Web-Specific Performance Optimizations -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <!-- Built-in Containerization -->
+  <PropertyGroup>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerImageName>custom-tours-api</ContainerImageName>
+  </PropertyGroup>
+
+  <!-- Dependencies -->
+  <ItemGroup>
+
+    <!-- Versions are now strictly managed by props -->
+    <PackageReference Include="Microsoft.OpenApi" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,38 @@
+name: 🧪 Unit Tests & Reporter
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  test-and-report:
+    name: Run Tests and Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: 🧪 Run Unit Tests
+        # Crucial: If tests fail, we still want the next step to run!
+        continue-on-error: true
+        # Output results to a .trx file in a specific folder
+        run: dotnet test --logger "trx;LogFileName=test-results.trx" --results-directory ./TestResults
+
+      - name: 📊 Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        # Ensure this always runs, regardless of test pass/fail status
+        if: always()
+        with:
+          # Point the action to the generated .trx files
+          files: "**/TestResults/*.trx"

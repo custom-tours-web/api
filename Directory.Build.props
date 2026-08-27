@@ -1,0 +1,81 @@
+<Project>
+
+  <!-- Global Defaults -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+    <!-- Build Performance Optimization -->
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+  </PropertyGroup>
+
+  <!-- Deterministic Builds (CI/CD) -->
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!-- Supply Chain Security -->
+  <PropertyGroup>
+
+    <!-- Forces NuGet to check for known vulnerabilities during restore -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+  </PropertyGroup>
+
+  <!-- Debugging & Source Link -->
+  <PropertyGroup>
+
+    <!-- Embeds untracked files and SourceLink metadata for accurate CI crash dumps -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- Analysis & Code Quality -->
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>Recommended</AnalysisMode>
+    <WarningLevel>9999</WarningLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Test Project Defaults -->
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or  $(MSBuildProjectName.EndsWith('.Tests'))">
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <IsPackable>false</IsPackable>
+    <OutputType>library</OutputType>
+
+    <!-- Ensure tests don't trigger security audits for test-only packages -->
+    <NuGetAudit>false</NuGetAudit>
+
+    <!-- Exclude specific namespaces -->
+    <Exclude>[api]api.DTOs.*,[api]api.Models.*,[api]api.Datas.*,[api]api.Mappers.*,[api]api.Middlewares.*,[api]api.Intefaces.*</Exclude>
+
+    <!-- Exclude specific files -->
+    <ExcludeByFile>**/Program.cs,**/*.generated.cs,**/*.g.cs,**/*Designer.cs</ExcludeByFile>
+
+    <!-- Exclude code marked with attributes -->
+    <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+
+    <!-- Optimizations -->
+    <IncludeTestAssembly>false</IncludeTestAssembly>
+    <SkipAutoProps>true</SkipAutoProps>
+    <UseSourceLink>true</UseSourceLink>
+    <DeterministicReport>true</DeterministicReport>
+
+    <!-- Minimum coverage thresholds -->
+    <Threshold>1</Threshold>
+    <ThresholdType>line,branch,method</ThresholdType>
+    <ThresholdStat>total</ThresholdStat>
+  </PropertyGroup>
+</Project>

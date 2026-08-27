@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+
+  <!-- Global Execution Configuration -->
+  <RunConfiguration>
+
+    <!-- Use 0 to utilize all available CPU cores for parallel test execution -->
+    <MaxCpuCount>0</MaxCpuCount>
+
+    <!-- Set a hard timeout to prevent hanging tests -->
+    <TestSessionTimeout>300000</TestSessionTimeout>
+  </RunConfiguration>
+
+  <!-- CI/CD Logger Configuration -->
+  <LoggerRunSettings>
+    <Loggers>
+
+      <!-- Ensure a TRX file is always generated for CI test dashboards -->
+      <Logger friendlyName="trx" enabled="True" />
+    </Loggers>
+  </LoggerRunSettings>
+
+  <!-- Coverage Data Collector -->
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage" enabled="True">
+        <Configuration>
+          <Format></Format>
+          <Exclude>
+            [api]api.DTOs.*,
+            [api]api.Models.*,
+            [api]api.Datas.*,
+            [api]api.Mappers.*,
+            [api]api.Middlewares.*
+          </Exclude>
+          <ExcludeByFile>
+            **/Program.cs,
+            **/*.generated.cs,
+            **/*.g.cs,
+            **/*Designer.cs
+          </ExcludeByFile>
+
+          <!-- Exclude code explicitly marked with specific attributes -->
+          <ExcludeByAttribute>
+            Obsolete,
+            GeneratedCodeAttribute,
+            CompilerGeneratedAttribute,
+            ExcludeFromCodeCoverageAttribute
+          </ExcludeByAttribute>
+
+          <!-- CI/CD Quality Gates threshold -->
+          <Threshold>80</Threshold>
+          <ThresholdType>line,branch,method</ThresholdType>
+          <ThresholdStat>total</ThresholdStat>
+
+          <!-- Optimizations and Enhancements -->
+          <!-- Prevent tests themselves from skewing coverage metrics -->
+          <IncludeTestAssembly>false</IncludeTestAssembly>
+
+          <!-- Skip empty properties -->
+          <SkipAutoProps>true</SkipAutoProps>
+
+          <!-- Link coverage files to remote source control -->
+          <UseSourceLink>true</UseSourceLink>
+
+          <!-- Ensures reproducible coverage paths across different CI runners -->
+          <DeterministicReport>true</DeterministicReport>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
