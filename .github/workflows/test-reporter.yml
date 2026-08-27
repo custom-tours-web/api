@@ -13,7 +13,7 @@ permissions:
 jobs:
   test-and-report:
     name: Run Tests and Report
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
