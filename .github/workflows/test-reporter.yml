@@ -35,3 +35,4 @@ jobs:
         with:
           # Point the action to the generated .trx files
           files: "artifacts/TestResults/**/*.trx"
+          check_name: "🧪 Run Tests"
