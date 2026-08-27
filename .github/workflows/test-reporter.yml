@@ -1,4 +1,4 @@
-name: 🧪 Unit Tests & Reporter
+name: 🧪 Tests & Reporter
 
 on:
   pull_request:
@@ -21,10 +21,20 @@ jobs:
       - name: ⚙️ Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '10.x'
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: 🔧 Restore Local Tools
+        run: dotnet tool restore
+
+      - name: 🧹 Clean & Restore
+        run: dotnet cake ./scripts/build.cake --target="Restore"
+
+      - name: 🏗️ Build App
+        run: dotnet cake ./scripts/build.cake --target="Build" --exclusive
 
       - name: 🧪 Run Tests
-        # Crucial: If tests fail, we still want the next step to run!
         continue-on-error: true
         run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
 
