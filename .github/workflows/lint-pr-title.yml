@@ -10,15 +10,19 @@ permissions:
 
 jobs:
   lint-title:
-    name: Validate PR Title
+    name: 🔍 Validate PR Title
     runs-on: ubuntu-latest
+
     steps:
-      - name: 🔍 Lint PR Title
+      - name: 📝 Check PR Title
         uses: amannn/action-semantic-pull-request@v6
+
         env:
+          # 🔑 GitHub authentication token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         with:
-          # Define the specific types of commits you allow
+          # 📝 Define the allowed commit / PR title types
           types: |
             feat
             fix
@@ -29,8 +33,8 @@ jobs:
             ci
             perf
 
-          # Require a scope (e.g., feat(api): instead of just feat:)
+          # 🎯 Require a scope (e.g., feat(api): instead of just feat:)
           requireScope: false
 
-          # Allows PRs to start with [WIP] to bypass checks while actively developing
+          # 🚧 Allow PRs starting with [WIP] to bypass checks during development
           wip: true

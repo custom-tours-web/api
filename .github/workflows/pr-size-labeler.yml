@@ -9,12 +9,17 @@ permissions:
 
 jobs:
   label-size:
-    name: Assign Size Label
+    name: 🏷️ Assign PR Size Label
     runs-on: ubuntu-latest
+
     steps:
-      - name: Size Labeler
+      - name: 📏 Calculate & Apply Size Label
         uses: pascalgn/size-label-action@v0.5.7
+
         env:
+          # 🔑 GitHub authentication token
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          # Files to ignore when calculating lines of code (e.g., auto-generated files)
+
+          # 🚫 Files to ignore when calculating lines of code
+          # 🤖 Useful for auto-generated files and dependency manifests
           IGNORED: "package-lock.json, yarn.lock, *.csproj, docs/*"

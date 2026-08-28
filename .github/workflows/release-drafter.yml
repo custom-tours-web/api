@@ -1,8 +1,8 @@
-name: Release Drafter
+name: 📝 Release Drafter
 
 on:
   push:
-    # Runs every time a PR is merged into main
+    # 🔀 Runs every time a PR is merged into main
     branches:
       - main
 
@@ -14,9 +14,15 @@ jobs:
   update_release_draft:
     name: 📝 Update Release Draft
     runs-on: ubuntu-latest
+
     steps:
-      - uses: release-drafter/release-drafter@v7
+      - name: 🚀 Draft Release Notes
+        uses: release-drafter/release-drafter@v7
+
         env:
+          # 🔑 GitHub authentication token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         with:
+          # ⚙️ Release Drafter configuration
           config-name: release-drafter.yml
