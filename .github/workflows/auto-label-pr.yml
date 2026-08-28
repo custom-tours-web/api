@@ -68,7 +68,7 @@ jobs:
         run: |
           Write-Host "👤 Assigning default reviewers to PR #$env:PR_NUMBER"
 
-          gh pr edit $env:PR_NUMBER --repo $env:GITHUB_REPOSITORY --add-reviewer "n-are-n"
+          gh pr edit $env:PR_NUMBER --repo $env:GITHUB_REPOSITORY --add-reviewer "hariofficial"
 
           # 💡 For GitHub Organizations, you can also assign entire teams:
           # gh pr edit $env:PR_NUMBER --repo $env:GITHUB_REPOSITORY --add-reviewer "your-org/backend-team"
