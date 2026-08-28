@@ -6,7 +6,7 @@
 * [✨ **Load New Feature Template**](?template=feature.md) — 🚀 Introduces new functionality or capabilities. Includes 🧪 UT/IT coverage, 📊 code coverage, 🧬 mutation testing, 🔐 security, 📚 documentation, and 🚀 deployment readiness.
 * [💥 **Load Breaking Change Template**](?template=breaking_change.md) — ⚠️ Introduces changes that may affect existing APIs, contracts, database schemas, integrations, or consumers. Includes 📋 impact analysis and 🔄 migration/rollback planning.
 * [♻️ **Load Refactor / Chore Template**](?template=chore.md) — 🧹 Refactoring, dependency updates, technical-debt cleanup, CI/CD changes, maintenance, or code-quality improvements. Includes 🧪 regression verification and 📈 quality checks.
-* [📚 **Load Documentation Update Template**](?template=documentation.md) — 📝 Updates README files, API documentation, Swagger/OpenAPI documentation, diagrams, guides, or other project documentation. Includes ✍️ content checks, 🔗 link verification, 🧪 technical accuracy, and 🖼️ preview validation.
+* [📚 **Load Documentation Update Template**](?template=docs.md) — 📝 Updates README files, API documentation, Swagger/OpenAPI documentation, diagrams, guides, or other project documentation. Includes ✍️ content checks, 🔗 link verification, 🧪 technical accuracy, and 🖼️ preview validation.
 * [🚑 **Load Production Hotfix Template**](?template=hotfix.md) — 🔥 Emergency production fix intended to restore service or mitigate a critical incident quickly. Includes 🚨 incident details, ⚠️ risk assessment, 🔙 rollback planning, 🧪 emergency testing, 📡 monitoring, and 🏁 post-incident follow-up.
 
 ---
