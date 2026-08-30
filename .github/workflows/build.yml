@@ -127,6 +127,17 @@ jobs:
         # coverage output does not overwrite it
         run: mv code-coverage-results.md ut-coverage-results.md
 
+      # Write UT Coverage to Summary
+      - name: 📝 Write UT Coverage to Job Summary
+        if: always()
+        run: |
+          echo "### 🧪 Unit Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
       # 📋 Integration Test Results
       - name: 📋 Publish Integration Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -186,25 +197,16 @@ jobs:
           # ⚠️ Warn instead of failing if Stryker didn't generate a report
           if-no-files-found: warn
 
-      # 📋 GitHub Job Summary
-      - name: 📝 Write Coverage to Job Summary
+      # Write IT Coverage to Summary
+      - name: 📝 Write IT Coverage to Job Summary
         if: always()
-
         run: |
-          # 🧪 Unit Test Coverage
-          echo "### 🧪 Unit Test Coverage" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          cat ut-coverage-results.md >> $GITHUB_STEP_SUMMARY
-
-          # ➖ Divider
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # 🔗 Integration Test Coverage
           echo "### 🔗 Integration Test Coverage" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
       # 🧬 Publish Mutation Summary to GitHub Job Summary
       - name: 📝 Write Mutation Report to Summary
