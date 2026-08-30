@@ -16,7 +16,6 @@
       "low": 60,
       "break": 30
     },
-    "output": "./artifacts/",
     "coverage-analysis": "all",
     "verbosity": "trace",
     "break-on-initial-test-failure": true
