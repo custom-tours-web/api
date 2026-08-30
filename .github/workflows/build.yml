@@ -167,7 +167,7 @@ jobs:
           name: stryker-mutation-report
 
           # 🎯 Search path for Stryker's generated output directory
-          path: "**/StrykerOutput/**/mutation-report.html"
+          path: "**/StrykerOutput/**/reports/*"
 
           # ⚠️ Warn instead of failing if Stryker didn't generate a report
           if-no-files-found: warn
