@@ -34,7 +34,7 @@ permissions:
 jobs:
   build-test-and-package:
     name: 📊 Build, Test & Verify
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     env:
       DOTNET_NOLOGO: true
