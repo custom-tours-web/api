@@ -116,8 +116,9 @@ jobs:
           # 📊 Include coverage indicators
           indicators: true
 
-          # 🎯 Minimum threshold: 80%
-          thresholds: '1 80'
+          # 🎯 Minimum threshold: 50%
+          thresholds: '50 75'
+          fail_below_min: true
 
       # Write UT Coverage to Summary
       - name: 📝 Write UT Coverage to Job Summary
@@ -160,8 +161,9 @@ jobs:
           # 📊 Include coverage indicators
           indicators: true
 
-          # 🎯 Minimum threshold: 70%
-          thresholds: '1 70'
+          # 🎯 Minimum threshold: 50%
+          thresholds: '50 75'
+          fail_below_min: true
 
       # 📦 Upload Unit & Integration Test Artifacts
       - name: 📦 Upload Test Results & Coverage
