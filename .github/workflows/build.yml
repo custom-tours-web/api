@@ -167,7 +167,7 @@ jobs:
           name: stryker-mutation-report
 
           # 🎯 Search path for Stryker's generated output directory
-          path: "**/StrykerOutput/**/reports/*"
+          path: "StrykerOutput/**/reports/*"
 
           # ⚠️ Warn instead of failing if Stryker didn't generate a report
           if-no-files-found: warn
@@ -200,7 +200,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # Find the markdown report inside the dynamically generated timestamp folder
-          REPORT_FILE=$(find api/api/StrykerOutput -name "mutation-report.md" | head -n 1)
+          REPORT_FILE=$(find StrykerOutput -name "mutation-report.md" | head -n 1)
 
           if [ -n "$REPORT_FILE" ] && [ -f "$REPORT_FILE" ]; then
             cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
