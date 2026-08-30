@@ -88,7 +88,7 @@ jobs:
       # 📊 Reporting & Artifacts
       # 📋 Unit Test Results
       - name: 📋 Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3
         if: always()
         with:
           # 🎯 Give this check a specific name in the GitHub UI
@@ -98,7 +98,7 @@ jobs:
 
       # 🧪 Unit Test Coverage
       - name: 📈 Publish Unit Test Coverage
-        uses: irongut/CodeCoverageSummary@v1.3.0
+        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
 
         if: always()
 
@@ -132,7 +132,7 @@ jobs:
 
       # 📋 Integration Test Results
       - name: 📋 Publish Integration Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3
         if: always()
         with:
           # 🎯 Give this check a specific name in the GitHub UI
@@ -142,7 +142,7 @@ jobs:
 
       # 🔗 Integration Test Coverage
       - name: 📈 Publish Integration Test Coverage
-        uses: irongut/CodeCoverageSummary@v1.3.0
+        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95
 
         if: always()
 
