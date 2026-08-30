@@ -17,7 +17,7 @@ Task("Clean")
 .OnError(exception =>
 {
     Error($"[Clean Task] 🚨 Failed to clean directories. Error: {exception.Message}");
-    throw exception; // Explicitly pass the exception variable
+    throw exception;
 });
 
 Task("Restore")
