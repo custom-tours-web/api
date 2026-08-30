@@ -6,7 +6,7 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var verbosityLevel = Argument("verbosity", DotNetVerbosity.Minimal);
 
-var solutionFile = "../api.slnx";
+var solutionFile = "../api.sln";
 var apiProject = "../api/api.csproj";
 var testProjectsGlob = "../tests/**/*.csproj";
 
