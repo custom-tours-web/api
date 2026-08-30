@@ -108,7 +108,7 @@ Task("Mutation-Test")
         ArgumentCustomization = args => args
             .Append($"--solution \"api.slnx\"")
             // Pass the path to your stryker-config.json file
-            .Append("-f \"../stryker-config.json\"")
+            .Append("-f \"stryker-config.json\"")
     });
 })
 .OnError(exception =>
