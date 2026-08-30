@@ -155,6 +155,15 @@ jobs:
           # 🎯 Minimum threshold: 70%
           thresholds: '1 70'
 
+      # 📦 Upload Unit & Integration Test Artifacts
+      - name: 📦 Upload Test Results & Coverage
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: unit-and-integration-test-results
+          path: artifacts/TestResults/
+          if-no-files-found: warn
+
       # 🧬 Mutation Test Report Artifacts
       - name: 📦 Upload Mutation Test HTML Report
         uses: actions/upload-artifact@v7
