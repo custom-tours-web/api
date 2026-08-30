@@ -77,6 +77,10 @@ jobs:
       - name: 🧪 Run Tests
         run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
 
+      # 🧬 Mutation Tests
+      - name: 🧬 Run Mutation Tests
+        run: dotnet cake ./scripts/build.cake --target="Mutation-Test" --exclusive
+
       # 📦 Packaging
       - name: 📦 Package App
         run: dotnet cake ./scripts/build.cake --target="Package" --exclusive
@@ -151,6 +155,22 @@ jobs:
           # 🎯 Minimum threshold: 70%
           thresholds: '1 70'
 
+      # 🧬 Mutation Test Report Artifacts
+      - name: 📦 Upload Mutation Test HTML Report
+        uses: actions/upload-artifact@v7
+
+        # 🔄 Always publish artifacts, even when tests or mutation thresholds fail
+        if: always()
+
+        with:
+          # 📄 Name of the downloadable artifact ZIP in the GitHub UI
+          name: stryker-mutation-report
+
+          # 🎯 Search path for Stryker's generated output directory
+          path: "**/StrykerOutput/**/mutation-report.html"
+
+          # ⚠️ Warn instead of failing if Stryker didn't generate a report
+          if-no-files-found: warn
 
       # 📋 GitHub Job Summary
       - name: 📝 Write Coverage to Job Summary
@@ -171,3 +191,24 @@ jobs:
           echo "### 🔗 Integration Test Coverage" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+
+      # 🧬 Publish Mutation Summary to GitHub Job Summary
+      - name: 📝 Write Mutation Report to Summary
+        if: always() # Ensures it runs even if mutation testing fails the threshold
+        run: |
+          echo "### 🧬 Stryker Mutation Testing Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Find the markdown report inside the dynamically generated timestamp folder
+          REPORT_FILE=$(find api/StrykerOutput -name "mutation-report.md" | head -n 1)
+
+          if [ -n "$REPORT_FILE" ] && [ -f "$REPORT_FILE" ]; then
+            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ *Mutation report not found. Check the Stryker logs for errors.*" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Add a divider for the next summary items
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY

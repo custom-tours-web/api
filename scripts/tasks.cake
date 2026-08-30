@@ -97,6 +97,23 @@ Task("Test")
     }
 });
 
+Task("Mutation-Test")
+    .IsDependentOn("Test")
+    .Does(() =>
+{
+    Information("🧬 Running Stryker Mutation Testing...");
+
+    DotNetTool("stryker", new DotNetToolSettings {
+        ArgumentCustomization = args => args
+            .Append($"--solution \"{solutionFile}\"")
+    });
+})
+.OnError(exception =>
+{
+    Error($"[Mutation-Test Task] 🚨 Stryker mutation testing failed or fell below threshold. Error: {exception.Message}");
+    throw exception;
+});
+
 Task("Package")
     .IsDependentOn("Test")
     .Does(() =>
