@@ -104,8 +104,13 @@ Task("Mutation-Test")
     Information("🧬 Running Stryker Mutation Testing...");
 
     DotNetTool("stryker", new DotNetToolSettings {
+        // Explicitly set the working directory to the repo root so it finds the config file
+        WorkingDirectory = MakeAbsolute(Directory("../")),
+
         ArgumentCustomization = args => args
             .Append($"--solution \"{solutionFile}\"")
+            // Pass the path to your stryker-config.json file
+            .Append("-f \"../stryker-config.json\"")
     });
 })
 .OnError(exception =>
