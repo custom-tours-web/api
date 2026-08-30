@@ -221,3 +221,21 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+
+      # 📦 Upload Compiled Application (Release DLLs)
+      - name: 📦 Upload App Release Binaries
+        uses: actions/upload-artifact@v4
+
+        # 🔄 Only upload if the pipeline succeeded up to this point
+        if: success()
+
+        with:
+          # 📄 Name of the downloadable artifact ZIP in the GitHub UI
+          name: app-release-binaries
+
+          # 🎯 Path where your Cake 'Package' task outputs the published DLLs.
+          # ⚠️ Check your build.cake 'publishDir' variable to confirm this path!
+          path: artifacts/publish/
+
+          # 🚨 Fail the step if it can't find the published files
+          if-no-files-found: error
