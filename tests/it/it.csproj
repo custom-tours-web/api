@@ -2,6 +2,7 @@
 
   <!-- Integration & BDD Test Project Configuration -->
   <PropertyGroup>
+  
     <!-- Triggers test rules and Reqnroll validation -->
     <IsTestProject>true</IsTestProject>
 

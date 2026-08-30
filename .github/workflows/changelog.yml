@@ -3,7 +3,7 @@ name: 📝 Update Changelog
 on:
   push:
     branches:
-      - main # 🚀 Runs immediately after a PR merges into main
+      - main
 
 jobs:
   update-changelog:
@@ -26,4 +26,4 @@ jobs:
 
           # 💾 Commit the updated changelog directly to main
           skip-commit: false
-          commit-message: "chore: update changelog [skip ci]"
+          git-message: "chore: update changelog [skip ci]"
