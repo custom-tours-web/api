@@ -119,14 +119,6 @@ jobs:
           # 🎯 Minimum threshold: 80%
           thresholds: '1 80'
 
-      # 📝 Save Unit Test Coverage
-      - name: 📝 Save UT Markdown
-        if: always()
-
-        # 🔄 Rename the generated file so the Integration Test
-        # coverage output does not overwrite it
-        run: mv code-coverage-results.md ut-coverage-results.md
-
       # Write UT Coverage to Summary
       - name: 📝 Write UT Coverage to Job Summary
         if: always()
