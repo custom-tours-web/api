@@ -9,6 +9,7 @@
       "module": "github.com/custom-tours-web/api",
       "version": "0.0.1"
     },
+    "mutate": ["**/*.cs", "!Models/**/*", "!**/program.cs"],
     "mutation-level": "Complete",
     "reporters": ["all"],
     "thresholds": {
