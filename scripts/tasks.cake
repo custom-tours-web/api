@@ -25,9 +25,11 @@ Task("Restore")
     .Does(() =>
 {
     Information($"🔧 Restoring NuGet packages for: {solutionFile}");
+    bool isCI = EnvironmentVariable("CI") == "true";
     DotNetRestore(solutionFile, new DotNetRestoreSettings {
         Verbosity = verbosityLevel,
-        LockedMode = EnvironmentVariable("CI") == "true"
+        LockedMode = isCI,
+        ForceEvaluate = !isCI
     });
 })
 .OnError(exception =>
