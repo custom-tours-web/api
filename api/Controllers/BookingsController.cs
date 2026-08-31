@@ -13,10 +13,7 @@ public class BookingRequestsController(IBookingRequestService service) : Control
     [HttpPost]
     public async Task<IActionResult> CreateBookingRequest([FromBody] BookingRequestDTO dto)
     {
-        // The service handles all the mapping and database logic
         var response = await _service.CreateBookingRequestAsync(dto);
-
-        // Return standard RESTful 201 Created response
         return Created($"/api/v1/booking-requests/{response.Id}", response);
     }
 }
