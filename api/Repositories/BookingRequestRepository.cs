@@ -10,7 +10,7 @@ public class BookingRequestRepository(TourismDbContext context) : IBookingReques
 
     public async Task AddAsync(BookingRequest request)
     {
-        _context.BookingRequests.Add(request);
+        await _context.BookingRequests.AddAsync(request);
         await _context.SaveChangesAsync();
     }
 }

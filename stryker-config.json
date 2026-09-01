@@ -14,6 +14,7 @@
     "mutate": [
       "**/*.cs",
       "!Models/**/*",
+      "!Datas/**/*",
       "!**/Program.cs"
     ],
     "mutation-level": "Complete",
