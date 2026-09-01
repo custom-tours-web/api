@@ -1,6 +1,8 @@
 <Project>
 
-  <!-- Central Package Management Configuration -->
+  <!-- ========================================== -->
+  <!-- 1. CENTRAL PACKAGE MANAGEMENT (CPM)        -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 
@@ -11,16 +13,20 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
-  <!-- Shared Version Variables -->
+  <!-- ========================================== -->
+  <!-- 2. SHARED VERSION VARIABLES                -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <CoreVersion>10.0.11</CoreVersion>
     <ReqnrollVersion>3.3.4</ReqnrollVersion>
   </PropertyGroup>
 
-  <!-- Package Versions -->
+  <!-- ========================================== -->
+  <!-- 3. PACKAGE VERSIONS                        -->
+  <!-- ========================================== -->
   <ItemGroup>
 
-    <!-- Core & Documentation -->
+    <!-- Core API & Documentation -->
     <PackageVersion Include="Microsoft.OpenApi" Version="2.12.2" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(CoreVersion)" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.17.1" />
@@ -49,5 +55,7 @@
     <PackageVersion Include="Reqnroll" Version="$(ReqnrollVersion)" />
     <PackageVersion Include="Reqnroll.NUnit" Version="$(ReqnrollVersion)" />
     <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="$(ReqnrollVersion)" />
+
   </ItemGroup>
+
 </Project>

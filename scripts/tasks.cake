@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////
-// TASKS
+// 1. CORE BUILD PIPELINE (Clean -> Restore -> Build)
 //////////////////////////////////////////////////////////////////////
 
 Task("Clean")
@@ -17,7 +17,7 @@ Task("Clean")
 .OnError(exception =>
 {
     Error($"[Clean Task] 🚨 Failed to clean directories. Error: {exception.Message}");
-    throw exception;
+    throw; // Preserves full stack trace instead of throw exception
 });
 
 Task("Restore")
@@ -35,7 +35,7 @@ Task("Restore")
 .OnError(exception =>
 {
     Error($"[Restore Task] 🚨 Package restore failed. Error: {exception.Message}");
-    throw exception;
+    throw;
 });
 
 Task("Build")
@@ -52,8 +52,12 @@ Task("Build")
 .OnError(exception =>
 {
     Error($"[Build Task] 🚨 Build failed compilation. Error: {exception.Message}");
-    throw exception;
+    throw;
 });
+
+//////////////////////////////////////////////////////////////////////
+// 2. VALIDATION & QUALITY GATES (Test -> Mutation-Test)
+//////////////////////////////////////////////////////////////////////
 
 Task("Test")
     .IsDependentOn("Build")
@@ -78,11 +82,10 @@ Task("Test")
                 NoRestore = true,
                 Verbosity = verbosityLevel,
                 ResultsDirectory = absoluteProjectTestResultsDir,
+                Settings = "../.runsettings", // Use global .runsettings configuration
                 ArgumentCustomization = args => args
                     .Append("--logger \"trx;LogFileName=test-results.trx\"")
-                    .Append("/p:CollectCoverage=true")
-                    .Append("/p:CoverletOutputFormat=cobertura")
-                    .Append($"/p:CoverletOutput=\"{absoluteProjectTestResultsDir}/\"")
+                    .Append("--collect:\"XPlat Code Coverage\"") // Standard collector mechanism
             });
             Information($"  ✅ Tests passed for {projectName}");
         }
@@ -109,15 +112,18 @@ Task("Mutation-Test")
         WorkingDirectory = MakeAbsolute(Directory("../")),
         ArgumentCustomization = args => args
             .Append($"--solution \"api.sln\"")
-            // Pass the path to your stryker-config.json file
             .Append("-f \"stryker-config.json\"")
     });
 })
 .OnError(exception =>
 {
     Error($"[Mutation-Test Task] 🚨 Stryker mutation testing failed or fell below threshold. Error: {exception.Message}");
-    throw exception;
+    throw;
 });
+
+//////////////////////////////////////////////////////////////////////
+// 3. PACKAGING & PUBLISHING
+//////////////////////////////////////////////////////////////////////
 
 Task("Package")
     .IsDependentOn("Test")
@@ -133,8 +139,12 @@ Task("Package")
 .OnError(exception =>
 {
     Error($"[Package Task] 🚨 Publishing failed. Error: {exception.Message}");
-    throw exception;
+    throw;
 });
+
+//////////////////////////////////////////////////////////////////////
+// 4. PIPELINE ENTRY POINTS
+//////////////////////////////////////////////////////////////////////
 
 Task("Default")
     .IsDependentOn("Package");

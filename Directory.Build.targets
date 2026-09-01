@@ -1,5 +1,19 @@
 <Project>
 
+  <!-- ========================================== -->
+  <!-- 1. BUILD INTEGRITY & FRAMEWORK POLICIES    -->
+  <!-- ========================================== -->
+
+  <!-- Legacy Framework Prevention -->
+  <Target Name="EnforceTargetFramework" BeforeTargets="CoreCompile">
+    <Error Text="Legacy Framework Detected: $(MSBuildProjectName) is targeting $(TargetFramework). Only net10.0 or higher is allowed."
+           Condition="!$(TargetFramework.StartsWith('net10'))" />
+  </Target>
+
+  <!-- ========================================== -->
+  <!-- 2. TESTING & BDD COMPLIANCE                -->
+  <!-- ========================================== -->
+
   <!-- Security & Policy Enforcement -->
   <!-- Prevents test projects from being packed or accidentally deployed -->
   <Target Name="EnforceNoPackOrPublishTests" BeforeTargets="Pack;Publish" Condition="'$(IsTestProject)' == 'true' Or $(MSBuildProjectName.EndsWith('.Tests'))">
@@ -18,15 +32,13 @@
     <Error Text="Reqnroll Configuration Missing: $(MSBuildProjectName) requires a 'reqnroll.json' file in the project root for proper BDD execution." Condition="'$(_ReqnrollJsonExists)' != 'true'" />
   </Target>
 
+  <!-- ========================================== -->
+  <!-- 3. DEPLOYMENT & RELEASE SAFETY             -->
+  <!-- ========================================== -->
+
   <!-- Deployment Safety Gates -->
   <Target Name="PreventDebugPublish" BeforeTargets="Publish">
     <Error Text="Release Build Required: You are attempting to publish a '$(Configuration)' build. Only 'Release' builds are permitted to be published." Condition="'$(Configuration)' != 'Release'" />
-  </Target>
-
-  <!-- Legacy Framework Prevention -->
-  <Target Name="EnforceTargetFramework" BeforeTargets="CoreCompile">
-    <Error Text="Legacy Framework Detected: $(MSBuildProjectName) is targeting $(TargetFramework). Only net10.0 or higher is allowed."
-           Condition="!$(TargetFramework.StartsWith('net10'))" />
   </Target>
 
 </Project>
