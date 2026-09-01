@@ -6,7 +6,7 @@ namespace api.Models;
 public class BookingRequest
 {
     [Key]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(100)]
