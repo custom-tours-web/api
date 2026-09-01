@@ -10,7 +10,6 @@ public static class BookingRequestMappingExtensions
     {
         return new BookingRequest
         {
-            Id = Guid.NewGuid(),
             FullName = dto.FullName,
             Status = BookingRequestStatus.Pending,
             CreatedAt = DateTimeOffset.UtcNow
