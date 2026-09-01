@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using api.Models.Enums;
 
 namespace api.Models;
@@ -35,7 +36,8 @@ public class BookingRequest
 
     public BookingRequestStatus Status { get; set; } = BookingRequestStatus.Pending;
 
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTimeOffset CreatedAt { get; }
 
     public DateTimeOffset? UpdatedAt { get; set; }
 }

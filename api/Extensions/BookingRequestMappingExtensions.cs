@@ -11,8 +11,13 @@ public static class BookingRequestMappingExtensions
         return new BookingRequest
         {
             FullName = dto.FullName,
-            Status = BookingRequestStatus.Pending,
-            CreatedAt = DateTimeOffset.UtcNow
+            PhoneNumber = dto.PhoneNumber,
+            CurrentLocation = dto.CurrentLocation,
+            Destination = dto.Destination,
+            TourDate = dto.TourDate,
+            NumberOfMembers = dto.NumberOfMembers,
+            SpecialRequests = dto.SpecialRequests,
+            Status = BookingRequestStatus.Pending
         };
     }
 }
