@@ -1,9 +1,11 @@
 name: 📏 PR Size Labeler
 
+# ⚙️ Workflow Triggers
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+# 🔐 Security Permissions (Least Privilege)
 permissions:
   pull-requests: write
 
@@ -13,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # ==========================================
+      # 1. CALCULATE & APPLY PR SIZE LABELS
+      # ==========================================
       - name: 📏 Calculate & Apply Size Label
         uses: pascalgn/size-label-action@56b489b027932ec0cf60438a1a5f1a19c8fc71ff # v0.5.7
 
@@ -20,6 +26,5 @@ jobs:
           # 🔑 GitHub authentication token
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-          # 🚫 Files to ignore when calculating lines of code
-          # 🤖 Useful for auto-generated files and dependency manifests
-          IGNORED: "package-lock.json, yarn.lock, *.csproj, docs/*"
+          # 🚫 Excluded files and auto-generated manifests
+          IGNORED: "package-lock.json, yarn.lock, packages.lock.json, *.csproj, **/*.generated.cs, **/*.g.cs, docs/*"

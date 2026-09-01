@@ -1,11 +1,5 @@
 # ==============================================================================
 # 🚀 .NET API Continuous Integration (CI) Workflow via Cake
-#
-# 🔄 Orchestrates restoring, building, testing, reporting, and packaging the
-# .NET solution via the central build.cake script.
-#
-# 📊 Publishes test and coverage metrics directly to GitHub Pull Requests
-# and Step Summaries.
 # ==============================================================================
 
 name: 🚀 CI
@@ -19,13 +13,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# 🔄 Prevents duplicate runs and cancels outdated builds
+# 🔄 Concurrency Control
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# 🔐 Elevated permissions required for test and coverage actions
-# to annotate Pull Requests and publish checks
+# 🔐 Security Permissions
 permissions:
   contents: read
   pull-requests: write
@@ -39,88 +32,66 @@ jobs:
     env:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
-
-      # 🔒 Enables deterministic LockedMode for Cake Restore
       CI: true
 
     steps:
 
-      # 📥 Source Code
+      # ==========================================
+      # 1. ENVIRONMENT & TOOLING SETUP
+      # ==========================================
       - name: 🛒 Checkout Code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
-      # ⚙️ .NET Environment
       - name: ⚙️ Setup .NET SDK
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
-
-          # ⚡ Enables NuGet caching to speed up builds
           cache: true
           cache-dependency-path: '**/packages.lock.json'
 
-      # 🔧 Local Tools
       - name: 🔧 Restore Local Tools
-        # 📦 Restores dotnet-cake and reportgenerator
-        # if they are defined in dotnet-tools.json
         run: dotnet tool restore
 
-      # 🧹 Restore
-      - name: 🧹 Clean & Restore
+      # ==========================================
+      # 2. BUILD, TEST & MUTATION EXECUTION
+      # ==========================================
+      - name: 🧹 Clean & Restore Dependencies
         run: dotnet cake ./scripts/build.cake --target="Restore"
 
-      # 🏗️ Build
-      - name: 🏗️ Build App
+      - name: 🏗️ Build Application
         run: dotnet cake ./scripts/build.cake --target="Build" --exclusive
 
-      # 🧪 Tests
-      - name: 🧪 Run Tests
+      - name: 🧪 Execute Test Suite
         run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
 
-      # 🧬 Mutation Tests
       - name: 🧬 Run Mutation Tests
         run: dotnet cake ./scripts/build.cake --target="Mutation-Test" --exclusive
 
-      # 📦 Packaging
-      - name: 📦 Package App
+      - name: 📦 Package Application
         run: dotnet cake ./scripts/build.cake --target="Package" --exclusive
 
-      # 📊 Reporting & Artifacts
-      # 📋 Unit Test Results
+      # ==========================================
+      # 3. UNIT TEST REPORTING & COVERAGE SUMMARY
+      # ==========================================
       - name: 📋 Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
-          # 🎯 Give this check a specific name in the GitHub UI
           check_name: "🧪 Unit Test Results"
-          # 📄 Read ONLY the UT TRX file
           files: "artifacts/TestResults/ut/**/*.trx"
 
-      # 🧪 Unit Test Coverage
-      - name: 📈 Publish Unit Test Coverage
+      - name: 📈 Process Unit Test Coverage
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
-
         if: always()
-
         with:
-          # 🎯 Only reads Unit Test coverage
           filename: "artifacts/TestResults/ut/coverage.cobertura.xml"
-
-          # 🏅 Generate coverage badge
           badge: true
-
-          # 📝 Generate Markdown output
           format: markdown
           output: both
-
-          # 📊 Include coverage indicators
           indicators: true
-
-          # 🎯 Minimum threshold: 50%
           thresholds: '50 75'
           fail_below_min: true
 
-      # Write UT Coverage to Summary
       - name: 📝 Write UT Coverage to Job Summary
         if: always()
         run: |
@@ -131,67 +102,28 @@ jobs:
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-      # 📋 Integration Test Results
+      # ==========================================
+      # 4. INTEGRATION TEST REPORTING & COVERAGE
+      # ==========================================
       - name: 📋 Publish Integration Test Results
-        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
-          # 🎯 Give this check a specific name in the GitHub UI
           check_name: "🔗 Integration Test Results"
-          # 📄 Read ONLY the IT TRX file
           files: "artifacts/TestResults/it/**/*.trx"
 
-      # 🔗 Integration Test Coverage
-      - name: 📈 Publish Integration Test Coverage
-        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95
-
+      - name: 📈 Process Integration Test Coverage
+        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: always()
-
         with:
-          # 🎯 Only reads Integration Test coverage
           filename: "artifacts/TestResults/it/coverage.cobertura.xml"
-
-          # 🏅 Generate coverage badge
           badge: true
-
-          # 📝 Generate Markdown output
           format: markdown
           output: both
-
-          # 📊 Include coverage indicators
           indicators: true
-
-          # 🎯 Minimum threshold: 50%
           thresholds: '50 75'
           fail_below_min: true
 
-      # 📦 Upload Unit & Integration Test Artifacts
-      - name: 📦 Upload Test Results & Coverage
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: unit-and-integration-test-results
-          path: artifacts/TestResults/
-          if-no-files-found: warn
-
-      # 🧬 Mutation Test Report Artifacts
-      - name: 📦 Upload Mutation Test HTML Report
-        uses: actions/upload-artifact@v7
-
-        # 🔄 Always publish artifacts, even when tests or mutation thresholds fail
-        if: always()
-
-        with:
-          # 📄 Name of the downloadable artifact ZIP in the GitHub UI
-          name: stryker-mutation-report
-
-          # 🎯 Search path for Stryker's generated output directory
-          path: "StrykerOutput/**/reports/*"
-
-          # ⚠️ Warn instead of failing if Stryker didn't generate a report
-          if-no-files-found: warn
-
-      # Write IT Coverage to Summary
       - name: 📝 Write IT Coverage to Job Summary
         if: always()
         run: |
@@ -202,14 +134,15 @@ jobs:
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-      # 🧬 Publish Mutation Summary to GitHub Job Summary
+      # ==========================================
+      # 5. MUTATION TEST REPORTING & JOB SUMMARY
+      # ==========================================
       - name: 📝 Write Mutation Report to Summary
-        if: always() # Ensures it runs even if mutation testing fails the threshold
+        if: always()
         run: |
           echo "### 🧬 Stryker Mutation Testing Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          # Find the markdown report inside the dynamically generated timestamp folder
           REPORT_FILE=$(find StrykerOutput -name "mutation-report.md" | head -n 1)
 
           if [ -n "$REPORT_FILE" ] && [ -f "$REPORT_FILE" ]; then
@@ -218,25 +151,33 @@ jobs:
             echo "⚠️ *Mutation report not found. Check the Stryker logs for errors.*" >> $GITHUB_STEP_SUMMARY
           fi
 
-          # Add a divider for the next summary items
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-      # 📦 Upload Compiled Application (Release DLLs)
+      # ==========================================
+      # 6. ARTIFACT ARCHIVING & RELEASE PACKAGING
+      # ==========================================
+      - name: 📦 Upload Test Results & Coverage Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-and-integration-test-results
+          path: artifacts/TestResults/
+          if-no-files-found: warn
+
+      - name: 📦 Upload Mutation Test HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stryker-mutation-report
+          path: "StrykerOutput/**/reports/*"
+          if-no-files-found: warn
+
       - name: 📦 Upload App Release Binaries
         uses: actions/upload-artifact@v4
-
-        # 🔄 Only upload if the pipeline succeeded up to this point
         if: success()
-
         with:
-          # 📄 Name of the downloadable artifact ZIP in the GitHub UI
           name: app-release-binaries
-
-          # 🎯 Path where your Cake 'Package' task outputs the published DLLs.
-          # ⚠️ Check your build.cake 'publishDir' variable to confirm this path!
           path: artifacts/publish/
-
-          # 🚨 Fail the step if it can't find the published files
           if-no-files-found: error

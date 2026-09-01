@@ -1,9 +1,11 @@
 name: 🏷️ Lint PR Title
 
+# ⚙️ Workflow Triggers
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
 
+# 🔐 Security Permissions (Least Privilege)
 permissions:
   pull-requests: read
   statuses: write
@@ -14,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # ==========================================
+      # 1. SEMANTIC PR TITLE VALIDATION
+      # ==========================================
       - name: 📝 Check PR Title
         uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
 
@@ -22,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         with:
-          # 📝 Define the allowed commit / PR title types
+          # 📝 Allowed Conventional Commit types
           types: |
             feat
             fix
@@ -33,8 +39,6 @@ jobs:
             ci
             perf
 
-          # 🎯 Require a scope (e.g., feat(api): instead of just feat:)
+          # 🎯 Scope & WIP Rules
           requireScope: false
-
-          # 🚧 Allow PRs starting with [WIP] to bypass checks during development
           wip: true
