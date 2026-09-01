@@ -1,7 +1,12 @@
+# 🏷️ Release Naming & Tagging Templates
 name-template: '🚀 v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 
-# 🏷️ Categorize PRs based on the labels
+# 🚫 Exclusion Rules
+exclude-labels:
+  - 'skip-changelog'
+
+# 🗂️ Pull Request Categories
 categories:
   - title: '🚀 Features'
     labels:
@@ -24,11 +29,7 @@ categories:
       - 'documentation'
       - 'docs'
 
-# 🚫 Exclude PRs with these labels from the changelog
-exclude-labels:
-  - 'skip-changelog'
-
-# 📝 Release notes template
+# 📝 Release Body Template
 template: |
   ## ✨ What's Changed
 
