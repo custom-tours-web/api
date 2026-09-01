@@ -28,5 +28,5 @@ catch (Exception ex)
     // IMPORTANT: Rethrow the exception!
     // If you do not rethrow, the script will exit with a "0" (Success) code,
     // and GitHub Actions will mistakenly think the build passed.
-    throw;
+    throw ex;
 }

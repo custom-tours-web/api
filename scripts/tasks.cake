@@ -17,7 +17,7 @@ Task("Clean")
 .OnError(exception =>
 {
     Error($"[Clean Task] 🚨 Failed to clean directories. Error: {exception.Message}");
-    throw; // Preserves full stack trace instead of throw exception
+    throw exception; // Preserves full stack trace instead of throw exception
 });
 
 Task("Restore")
@@ -35,7 +35,7 @@ Task("Restore")
 .OnError(exception =>
 {
     Error($"[Restore Task] 🚨 Package restore failed. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 Task("Build")
@@ -52,7 +52,7 @@ Task("Build")
 .OnError(exception =>
 {
     Error($"[Build Task] 🚨 Build failed compilation. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ Task("Mutation-Test")
 .OnError(exception =>
 {
     Error($"[Mutation-Test Task] 🚨 Stryker mutation testing failed or fell below threshold. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -139,7 +139,7 @@ Task("Package")
 .OnError(exception =>
 {
     Error($"[Package Task] 🚨 Publishing failed. Error: {exception.Message}");
-    throw;
+    throw exception;
 });
 
 //////////////////////////////////////////////////////////////////////
