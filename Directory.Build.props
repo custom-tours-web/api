@@ -1,44 +1,22 @@
 <Project>
 
-  <!-- Global Defaults -->
+  <!-- ========================================== -->
+  <!-- 1. CORE FRAMEWORK & LANGUAGE               -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UseArtifactsOutput>true</UseArtifactsOutput>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-    <!-- Build Performance Optimization -->
+    <!-- Build Output & Performance -->
+    <UseArtifactsOutput>true</UseArtifactsOutput>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
   </PropertyGroup>
 
-  <!-- Deterministic Builds (CI/CD) -->
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-
-  <!-- Supply Chain Security -->
-  <PropertyGroup>
-
-    <!-- Forces NuGet to check for known vulnerabilities during restore -->
-    <NuGetAudit>true</NuGetAudit>
-    <NuGetAuditMode>all</NuGetAuditMode>
-    <NuGetAuditLevel>moderate</NuGetAuditLevel>
-  </PropertyGroup>
-
-  <!-- Debugging & Source Link -->
-  <PropertyGroup>
-
-    <!-- Embeds untracked files and SourceLink metadata for accurate CI crash dumps -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-
-  <!-- Analysis & Code Quality -->
+  <!-- ========================================== -->
+  <!-- 2. ANALYSIS & CODE QUALITY                 -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -48,8 +26,40 @@
     <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <!-- Test Project Defaults -->
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or  $(MSBuildProjectName.EndsWith('.Tests'))">
+  <!-- ========================================== -->
+  <!-- 3. CI/CD, SECURITY & DEBUGGING             -->
+  <!-- ========================================== -->
+
+  <!-- Deterministic Builds (Triggered only in CI pipelines) -->
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!-- Supply Chain Security -->
+  <PropertyGroup>
+    <!-- Forces NuGet to check for known vulnerabilities during restore -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+  </PropertyGroup>
+
+  <!-- Debugging & Source Link -->
+  <PropertyGroup>
+    <!-- Embeds untracked files and SourceLink metadata for accurate CI crash dumps -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- ========================================== -->
+  <!-- 4. TEST PROJECT DEFAULTS                   -->
+  <!-- ========================================== -->
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or $(MSBuildProjectName.EndsWith('.Tests'))">
+
+    <!-- Standard Test Project Settings -->
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateProgramFile>false</GenerateProgramFile>
     <IsPackable>false</IsPackable>
@@ -58,13 +68,10 @@
     <!-- Ensure tests don't trigger security audits for test-only packages -->
     <NuGetAudit>false</NuGetAudit>
 
-    <!-- Exclude specific namespaces -->
+    <!-- Coverlet MSBuild Code Coverage Settings -->
+    <!-- Exclusions -->
     <Exclude>[api]api.DTOs.*,[api]api.Models.*,[api]api.Datas.*,[api]api.Mappers.*,[api]api.Middlewares.*,[api]api.Intefaces.*</Exclude>
-
-    <!-- Exclude specific files -->
     <ExcludeByFile>**/Program.cs,**/*.generated.cs,**/*.g.cs,**/*Designer.cs</ExcludeByFile>
-
-    <!-- Exclude code marked with attributes -->
     <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
 
     <!-- Optimizations -->
@@ -78,4 +85,5 @@
     <ThresholdType>line,branch,method</ThresholdType>
     <ThresholdStat>total</ThresholdStat>
   </PropertyGroup>
+
 </Project>
