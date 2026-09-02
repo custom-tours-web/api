@@ -11,10 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Service Configuration (DI Container)
 
-// 1. Database Configuration
-// Registers the SQLite database context using the default connection string.
-builder.Services.AddDbContext<TourismDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+// Only register the production/development database if we are NOT running integration tests
+if (!builder.Environment.IsEnvironment("Testing"))
+    builder.Services.AddDbContext<TourismDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
 // 2. Application Services & Repositories
 // Scoped lifecycle ensures a new instance is created per HTTP request.
