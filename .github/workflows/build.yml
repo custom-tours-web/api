@@ -84,7 +84,7 @@ jobs:
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: always()
         with:
-          filename: "artifacts/TestResults/ut/**/coverage.cobertura.xml"
+          filename: "artifacts/TestResults/ut/**/*.xml"
           badge: true
           format: markdown
           output: both
@@ -116,7 +116,7 @@ jobs:
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: always()
         with:
-          filename: "artifacts/TestResults/it/**/coverage.cobertura.xml"
+          filename: "artifacts/TestResults/it/**/*.xml"
           badge: true
           format: markdown
           output: both
