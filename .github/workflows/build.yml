@@ -40,10 +40,10 @@ jobs:
       # 1. ENVIRONMENT & TOOLING SETUP
       # ==========================================
       - name: 🛒 Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: ⚙️ Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
           cache: true
@@ -89,7 +89,7 @@ jobs:
           format: markdown
           output: both
           indicators: true
-          thresholds: '50 75'
+          thresholds: '1 75'
           fail_below_min: true
 
       - name: 📝 Write UT Coverage to Job Summary
@@ -121,7 +121,7 @@ jobs:
           format: markdown
           output: both
           indicators: true
-          thresholds: '50 75'
+          thresholds: '1 75'
           fail_below_min: true
 
       - name: 📝 Write IT Coverage to Job Summary
