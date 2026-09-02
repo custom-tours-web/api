@@ -89,7 +89,7 @@ jobs:
           format: markdown
           output: both
           indicators: true
-          thresholds: '1 75'
+          thresholds: '50 75'
           fail_below_min: true
 
       - name: 📝 Write UT Coverage to Job Summary
@@ -121,7 +121,7 @@ jobs:
           format: markdown
           output: both
           indicators: true
-          thresholds: '1 75'
+          thresholds: '50 75'
           fail_below_min: true
 
       - name: 📝 Write IT Coverage to Job Summary
