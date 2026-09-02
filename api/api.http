@@ -1,6 +1,29 @@
-@api_HostAddress = http://localhost:5166
+# ==============================================================================
+# TOURISM API - ENDPOINT TESTING
+# ==============================================================================
 
-GET {{api_HostAddress}}/weatherforecast/
-Accept: application/json
+# --- Environment Variables ---
+@api_HttpHostAddress = http://localhost:5166
+@api_HttpsHostAddress = https://localhost:7112
+
+
+# ==============================================================================
+# BOOKING REQUESTS
+# ==============================================================================
 
 ###
+# @name CreateBookingRequest
+# @description Creates a new booking request in the system.
+POST {{api_HttpsHostAddress}}/api/v1/booking-requests
+Content-Type: application/json
+Accept: application/json
+
+{
+  "fullName": "Naren",
+  "phoneNumber": "+91 8428-558-275",
+  "currentLocation": "Tiruppur",
+  "destination": "Coimbatore",
+  "tourDate": "2026-09-05",
+  "numberOfMembers": 1,
+  "specialRequests": "Require vegetarian meal options."
+}
