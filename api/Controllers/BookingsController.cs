@@ -6,21 +6,13 @@ namespace api.Controllers;
 
 /// <summary>
 /// Handles HTTP requests related to booking request operations.
-/// <paramref name="logger"/> is used for logging request processing details and errors.
 /// <paramref name="service"/> is used to execute the business logic for handling booking requests.
 /// </summary>
 [ApiController]
 [Route("api/v1/booking-requests")]
-public class BookingRequestsController(
-    ILogger<BookingRequestsController> logger,
-    IBookingRequestService service) : ControllerBase
+public class BookingRequestsController(IBookingRequestService service) : ControllerBase
 {
     #region Dependencies
-
-    /// <summary>
-    /// The logger instance for logging controller-level operations and errors.
-    /// </summary>
-    private readonly ILogger<BookingRequestsController> _logger = logger;
 
     /// <summary>
     /// The service instance for executing business logic related to booking requests.
@@ -45,30 +37,8 @@ public class BookingRequestsController(
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateBookingRequest([FromBody] BookingRequestDTO dto)
     {
-        _logger.LogInformation("Received request to create a new booking request.");
-
-        if (!ModelState.IsValid)
-        {
-            _logger.LogWarning("Invalid model state for booking request creation.");
-            return BadRequest(ModelState);
-        }
-
-        try
-        {
-            var response = await _service.CreateBookingRequestAsync(dto);
-
-            _logger.LogInformation("Successfully created booking request with ID: {BookingId}", response?.Id);
-
-            return Created($"/api/v1/booking-requests/{response?.Id}", response);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while creating the booking request.");
-
-            return StatusCode(
-                StatusCodes.Status500InternalServerError,
-                "An unexpected error occurred while processing your request. Please try again later.");
-        }
+        var response = await _service.CreateBookingRequestAsync(dto);
+        return Created($"/api/v1/booking-requests/{response?.Id}", response);
     }
 
     #endregion
