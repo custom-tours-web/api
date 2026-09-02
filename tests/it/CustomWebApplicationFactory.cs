@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace it;
 
@@ -16,18 +17,24 @@ namespace it;
 /// </summary>
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    #region Properties
+
     /// <summary>
     /// Unique database instance identifier generated per factory instance to prevent cross-test data pollution.
     /// </summary>
     public string DatabaseName { get; } = $"TestDb_{Guid.NewGuid()}";
 
+    #endregion
+
+    #region Host Configuration
+
     /// <summary>
-    /// Configures the test web host with testing configuration, isolated database providers, and test doubles[cite: 13].
+    /// Configures the test web host with testing configuration, isolated database providers, and test doubles.
     /// </summary>
-    /// <param name="builder">The web host builder to configure for testing[cite: 13].</param>
+    /// <param name="builder">The web host builder to configure for testing.</param>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // 1. Force the execution environment to "Testing"[cite: 13]
+        // 1. Force the execution environment to "Testing"
         builder.UseEnvironment("Testing");
 
         // 2. Override settings using an in-memory configuration collection
@@ -66,6 +73,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         });
     }
 
+    #endregion
+
+    #region Helper Methods
+
     /// <summary>
     /// Utility method to remove an existing service descriptor from the service collection.
     /// </summary>
@@ -89,4 +100,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.Remove(service);
         }
     }
+
+    #endregion
 }
