@@ -1,0 +1,41 @@
+{
+  "stryker-config": {
+    "project-info": {
+      "name": "github.com/custom-tours-web/api",
+      "module": "github.com/custom-tours-web/api",
+      "version": "0.0.1"
+    },
+
+    "solution": "./api.sln",
+    "project": "api.csproj",
+    "test-projects": [
+      "./tests/it/it.csproj",
+      "./tests/ut/ut.csproj"
+    ],
+
+    "mutate": [
+      "**/*.cs",
+      "!DTOs/**/*",
+      "!Models/**/*",
+      "!Datas/**/*",
+      "!**/Program.cs"
+    ],
+    "mutation-level": "Complete",
+    "ignore-methods": [
+      "Log*"
+    ],
+
+    "coverage-analysis": "all",
+    "break-on-initial-test-failure": true,
+
+    "thresholds": {
+      "high": 75,
+      "low": 60,
+      "break": 50
+    },
+    "reporters": [
+      "all"
+    ],
+    "verbosity": "trace"
+  }
+}

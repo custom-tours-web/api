@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Test Project Configuration -->
+  <!-- ========================================== -->
+  <!-- 1. PROJECT CONFIGURATION                   -->
+  <!-- ========================================== -->
   <PropertyGroup>
-
-    <!-- Triggers global test rules -->
+    <!-- Triggers global test rules defined in Directory.Build.props -->
     <IsTestProject>true</IsTestProject>
 
     <!-- Prevents test assemblies from being packed or deployed to production -->
@@ -11,8 +12,18 @@
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
-  <!-- Dependencies -->
+  <!-- ========================================== -->
+  <!-- 2. PROJECT REFERENCES                      -->
+  <!-- ========================================== -->
   <ItemGroup>
+    <ProjectReference Include="..\..\api\api.csproj" />
+  </ItemGroup>
+
+  <!-- ========================================== -->
+  <!-- 3. NUGET PACKAGES (TEST INFRASTRUCTURE)    -->
+  <!-- ========================================== -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit.Analyzers" />
@@ -21,14 +32,11 @@
     <PackageReference Include="coverlet.msbuild" />
   </ItemGroup>
 
-  <!-- Global Usings -->
+  <!-- ========================================== -->
+  <!-- 4. GLOBAL USINGS                           -->
+  <!-- ========================================== -->
   <ItemGroup>
     <Using Include="NUnit.Framework" />
-  </ItemGroup>
-
-  <!-- Project References -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\api\api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using api.Datas;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -16,21 +17,27 @@ namespace it;
 /// </summary>
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    #region Properties
+
     /// <summary>
     /// Unique database instance identifier generated per factory instance to prevent cross-test data pollution.
     /// </summary>
     public string DatabaseName { get; } = $"TestDb_{Guid.NewGuid()}";
 
+    #endregion
+
+    #region Host Configuration
+
     /// <summary>
-    /// Configures the test web host with testing configuration, isolated database providers, and test doubles[cite: 13].
+    /// Configures the test web host with testing configuration, isolated database providers, and test doubles.
     /// </summary>
-    /// <param name="builder">The web host builder to configure for testing[cite: 13].</param>
+    /// <param name="builder">The web host builder to configure for testing.</param>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // 1. Force the execution environment to "Testing"[cite: 13]
+        // Force the execution environment to "Testing"
         builder.UseEnvironment("Testing");
 
-        // 2. Override settings using an in-memory configuration collection
+        // Override settings using an in-memory configuration collection
         builder.ConfigureAppConfiguration((_, config) =>
         {
             config.AddInMemoryCollection(new Dictionary<string, string?>
@@ -45,7 +52,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             });
         });
 
-        // 3. Restrict and format logging output during test execution
+        // Restrict and format logging output during test execution
         builder.ConfigureLogging(logging =>
         {
             logging.ClearProviders();
@@ -53,30 +60,23 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             logging.SetMinimumLevel(LogLevel.Warning);
         });
 
-        // 4. Swap production infrastructure for test doubles using TestHost
+        // Swap production infrastructure for test doubles using TestHost
         builder.ConfigureTestServices(services =>
         {
-            // Remove production DbContextOptions registration if present
-            RemoveServiceDescriptor<DbContextOptions>(services);
-
-            // Remove background workers to prevent async tasks from running during integration tests
+            // Remove background workers to prevent async tasks from running
             RemoveHostedServices(services);
 
-            // Register mock/fake services or custom authentication handlers here
+            // Safely inject the completely isolated In-Memory database
+            services.AddDbContext<TourismDbContext>(options =>
+            {
+                options.UseInMemoryDatabase(DatabaseName);
+            });
         });
     }
 
-    /// <summary>
-    /// Utility method to remove an existing service descriptor from the service collection.
-    /// </summary>
-    private static void RemoveServiceDescriptor<T>(IServiceCollection services)
-    {
-        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(T));
-        if (descriptor is not null)
-        {
-            services.Remove(descriptor);
-        }
-    }
+    #endregion
+
+    #region Helper Methods
 
     /// <summary>
     /// Utility method to remove all IHostedService background workers.
@@ -89,4 +89,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.Remove(service);
         }
     }
+
+    #endregion
 }

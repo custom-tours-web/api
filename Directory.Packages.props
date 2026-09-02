@@ -1,41 +1,61 @@
 <Project>
-  <!-- Central Package Management Configuration -->
+
+  <!-- ========================================== -->
+  <!-- 1. CENTRAL PACKAGE MANAGEMENT (CPM)        -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
     <!-- Enforces strict versioning by preventing individual .csproj files from overriding these versions -->
     <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
+
     <!-- Pins hidden transitive dependencies to these exact versions, preventing vulnerabilities from sneaking in -->
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-  <!-- Shared Version Variables -->
+
+  <!-- ========================================== -->
+  <!-- 2. SHARED VERSION VARIABLES                -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <CoreVersion>10.0.11</CoreVersion>
     <ReqnrollVersion>3.3.4</ReqnrollVersion>
   </PropertyGroup>
-  <!-- Package Versions -->
+
+  <!-- ========================================== -->
+  <!-- 3. PACKAGE VERSIONS                        -->
+  <!-- ========================================== -->
   <ItemGroup>
-    <!-- Core & Documentation -->
+
+    <!-- Core API & Documentation -->
     <PackageVersion Include="Microsoft.OpenApi" Version="2.12.2" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(CoreVersion)" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.17.1" />
+    <PackageVersion Include="AutoMapper" Version="16.2.0" />
+
     <!-- Entity Framework Core & Database -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(CoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(CoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(CoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(CoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(CoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(CoreVersion)" />
+
     <!-- .NET Test Infrastructure -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(CoreVersion)" />
     <PackageVersion Include="Moq" Version="4.20.72" />
+
     <!-- NUnit Testing Framework -->
     <PackageVersion Include="NUnit" Version="4.6.1" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.3.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.14.0" />
     <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
+
     <!-- Reqnroll (BDD) -->
     <PackageVersion Include="Reqnroll" Version="$(ReqnrollVersion)" />
     <PackageVersion Include="Reqnroll.NUnit" Version="$(ReqnrollVersion)" />
     <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="$(ReqnrollVersion)" />
+
   </ItemGroup>
+
 </Project>

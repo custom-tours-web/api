@@ -1,33 +1,48 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <!-- Project-Specific Metadata -->
-  <!-- TargetFramework, Nullable, and ImplicitUsings were removed because they are inherited from Directory.Build.props -->
+  <!-- ========================================== -->
+  <!-- 1. PROJECT METADATA & IDENTITY             -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <Title>Custom Tours &amp; Travels Web API</Title>
     <Version>1.0.0</Version>
     <Description>Production Backend API for the Custom Tours platform</Description>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <NoWarn>$(NoWarn);CA1848;CA1873</NoWarn>
     <UserSecretsId></UserSecretsId>
   </PropertyGroup>
 
-  <!-- Web-Specific Performance Optimizations -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <ServerGarbageCollection>true</ServerGarbageCollection>
-    <PublishReadyToRun>true</PublishReadyToRun>
-  </PropertyGroup>
-
-  <!-- Built-in Containerization -->
+  <!-- ========================================== -->
+  <!-- 2. CONTAINERIZATION SETTINGS               -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
     <ContainerImageName>custom-tours-api</ContainerImageName>
   </PropertyGroup>
 
-  <!-- Dependencies -->
-  <ItemGroup>
+  <!-- ========================================== -->
+  <!-- 3. WEB PERFORMANCE & PUBLISHING (RELEASE)  -->
+  <!-- ========================================== -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
 
-    <!-- Versions are now strictly managed by props -->
+  <!-- ========================================== -->
+  <!-- 4. PACKAGE REFERENCES                      -->
+  <!-- ========================================== -->
+  <ItemGroup>
+    <!-- API Documentation -->
     <PackageReference Include="Microsoft.OpenApi" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Scalar.AspNetCore" />
+
+    <!-- Data Access & ORM -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+
+    <!-- Object Mapping -->
+    <PackageReference Include="AutoMapper" />
   </ItemGroup>
 
 </Project>

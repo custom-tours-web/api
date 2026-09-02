@@ -5,11 +5,12 @@ namespace it;
 
 /// <summary>
 /// Provides shared HTTP client and WebApplicationFactory setup for API integration tests.
-/// Manages lifecycle and dependency injection of test infrastructure across Reqnroll scenarios.
 /// </summary>
 [Binding]
 public class TestHooks
 {
+    #region Fields & Properties
+
     private static CustomWebApplicationFactory? _factory;
 
     /// <summary>
@@ -17,6 +18,10 @@ public class TestHooks
     /// </summary>
     public static CustomWebApplicationFactory Factory =>
         _factory ?? throw new InvalidOperationException("Test infrastructure factory has not been initialized by [BeforeTestRun].");
+
+    #endregion
+
+    #region Global Lifecycle (Test Run)
 
     /// <summary>
     /// Bootstraps application-wide test infrastructure once before any test scenario runs.
@@ -26,9 +31,25 @@ public class TestHooks
     {
         _factory = new CustomWebApplicationFactory();
 
-        // Performs initial async initialization (e.g., seeding data or applying database migrations)
         await Task.CompletedTask;
     }
+
+    /// <summary>
+    /// Cleans up global test infrastructure after all test scenarios have executed.
+    /// </summary>
+    [AfterTestRun]
+    public static async Task GlobalTeardownAsync()
+    {
+        if (_factory is not null)
+        {
+            await _factory.DisposeAsync();
+            _factory = null;
+        }
+    }
+
+    #endregion
+
+    #region Scenario Lifecycle (Per Test)
 
     /// <summary>
     /// Registers scenario-scoped HTTP clients and options into the Reqnroll IoC container.
@@ -56,7 +77,6 @@ public class TestHooks
     [BeforeScenario("database", Order = 1)]
     public static async Task ResetDatabaseStateAsync()
     {
-        // Executes asynchronous state reset (e.g., Respawn or EF Core database checkpointing)
         await Task.CompletedTask;
     }
 
@@ -74,16 +94,5 @@ public class TestHooks
         }
     }
 
-    /// <summary>
-    /// Cleans up global test infrastructure after all test scenarios have executed.
-    /// </summary>
-    [AfterTestRun]
-    public static async Task GlobalTeardownAsync()
-    {
-        if (_factory is not null)
-        {
-            await _factory.DisposeAsync();
-            _factory = null;
-        }
-    }
+    #endregion
 }

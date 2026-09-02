@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Integration & BDD Test Project Configuration -->
+  <!-- ========================================== -->
+  <!-- 1. PROJECT CONFIGURATION                   -->
+  <!-- ========================================== -->
   <PropertyGroup>
     <!-- Triggers test rules and Reqnroll validation -->
     <IsTestProject>true</IsTestProject>
@@ -13,15 +15,28 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
-  <!-- BDD Configuration Asset -->
+  <!-- ========================================== -->
+  <!-- 2. SYSTEM UNDER TEST (SUT) REFERENCE       -->
+  <!-- ========================================== -->
   <ItemGroup>
+    <ProjectReference Include="..\..\api\api.csproj" />
+  </ItemGroup>
+
+  <!-- ========================================== -->
+  <!-- 3. CONFIGURATION ASSETS                    -->
+  <!-- ========================================== -->
+  <ItemGroup>
+    <!-- BDD Configuration Asset -->
     <None Include="reqnroll.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <!-- Package Dependencies -->
+  <!-- ========================================== -->
+  <!-- 4. NUGET PACKAGES (TEST INFRASTRUCTURE)    -->
+  <!-- ========================================== -->
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -35,15 +50,12 @@
     <PackageReference Include="coverlet.msbuild" />
   </ItemGroup>
 
-  <!-- Global Usings for BDD & Testing -->
+  <!-- ========================================== -->
+  <!-- 5. GLOBAL USINGS                           -->
+  <!-- ========================================== -->
   <ItemGroup>
     <Using Include="NUnit.Framework" />
     <Using Include="Reqnroll" />
-  </ItemGroup>
-
-  <!-- System Under Test (SUT) Reference -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\api\api.csproj" />
   </ItemGroup>
 
 </Project>

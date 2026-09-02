@@ -1,26 +1,57 @@
+using api.Datas;
+using api.DTOs;
+using api.Interfaces;
+using api.Models;
+using api.Repositories;
+using api.Services;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region Service Configuration (DI Container)
 
+// Only register the production/development database if we are NOT running integration tests
+if (!builder.Environment.IsEnvironment("Testing"))
+    builder.Services.AddDbContext<TourismDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+// 2. Application Services & Repositories
+// Scoped lifecycle ensures a new instance is created per HTTP request.
+builder.Services.AddScoped<IBookingRequestRepository, BookingRequestRepository>();
+builder.Services.AddScoped<IBookingRequestService, BookingRequestService>();
+
+// 3. Third-Party Libraries (AutoMapper)
+// Configures object-to-object mapping profiles for DTOs and Data Models.
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.CreateMap<BookingRequestDTO, BookingRequest>();
+});
+
+// 4. API & Controller Setup
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(); // Generates OpenAPI specifications
+
+#endregion
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+#region HTTP Request Pipeline
+
+// Configure the HTTP request pipeline for development environments
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(); // Interactive UI for OpenAPI testing
 }
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
+// Standard middleware pipeline execution order
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
+
+#endregion
 
 app.Run();

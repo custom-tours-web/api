@@ -1,28 +1,31 @@
-name: 🏷️ Auto Label PR
+name: 🏷️ Auto Label & Assign PR
 
 on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-# 🔐 Required permission to add labels and reviewers to PRs
+# 🔐 Required permissions to read repository contents and modify PR metadata
 permissions:
+  contents: read
   pull-requests: write
 
 jobs:
-  apply-labels:
-    name: 🏷️ Apply Labels & 👤 Reviewers
+  apply-labels-and-reviewers:
+    name: 🏷️ Apply Labels & 👤 Assign Reviewers
     runs-on: windows-latest
 
     steps:
 
-      # 🏷️ Evaluate Branch & Apply Label
+      # ==========================================
+      # 1. BRANCH EVALUATION & AUTO-LABELING
+      # ==========================================
       - name: 🔍 Evaluate Branch Name & Apply Label
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           BRANCH_NAME: ${{ github.head_ref }}
-
         run: |
           Write-Host "🔍 Evaluating branch name: $env:BRANCH_NAME"
 
@@ -55,16 +58,17 @@ jobs:
               Write-Host "ℹ️ Branch name does not match known prefixes. No labels added."
           }
 
-
-      # 👤 Assign Default Code Reviewers
+      # ==========================================
+      # 2. AUTO-ASSIGN REVIEWERS
+      # ==========================================
       - name: 👤 Assign Code Reviewers
         # 🎯 Only auto-assign reviewers when the PR is initially created
         if: github.event.action == 'opened'
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-
         run: |
           Write-Host "👤 Assigning default reviewers to PR #$env:PR_NUMBER"
 

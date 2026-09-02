@@ -3,20 +3,8 @@
     "feature": "en-US",
     "binding": "en-US"
   },
-
   "bindingCulture": {
     "name": "en-US"
-  },
-
-  "generator": {
-    "allowDebugGeneratedFiles": false,
-    "allowRowTests": true,
-    "addNonParallelizableMarkerForTags": [
-      "sequential",
-      "database",
-      "nonparallelizable"
-    ],
-    "disableFriendlyTestNames": false
   },
 
   "runtime": {
@@ -25,9 +13,18 @@
     "stopAtFirstError": false
   },
 
+  "generator": {
+    "allowDebugGeneratedFiles": false,
+    "allowRowTests": true,
+    "disableFriendlyTestNames": false,
+    "addNonParallelizableMarkerForTags": [
+      "sequential",
+      "database",
+      "nonparallelizable"
+    ]
+  },
   "trace": {
     "stepDefinitionSkeletonStyle": "CucumberExpressionAttribute"
   },
-
   "bindingAssemblies": []
 }

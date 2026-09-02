@@ -1,0 +1,40 @@
+name: 📝 Update Changelog
+
+# ⚙️ Workflow Triggers
+on:
+  push:
+    branches:
+      - main
+
+# 🔐 Required permissions to write commits and tags back to the repository
+permissions:
+  contents: write
+
+jobs:
+  update-changelog:
+    name: 📝 Update CHANGELOG.md
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ==========================================
+      # 1. REPOSITORY CHECKOUT
+      # ==========================================
+      - name: 🛒 Checkout Code
+        uses: actions/checkout@v7
+        with:
+          # 📚 Fetch full commit history to allow changelog generation across tags
+          fetch-depth: 0
+
+      # ==========================================
+      # 2. CHANGELOG GENERATION & COMMIT
+      # ==========================================
+      - name: 🔄 Generate Changelog
+        uses: TriPSs/conventional-changelog-action@469f0e5e35831fbd1962706f29f65daf0a5723f2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: "CHANGELOG.md"
+
+          # 💾 Commit updated changelog to main ([skip ci] prevents workflow trigger loops)
+          skip-commit: false
+          git-message: "chore: update changelog [skip ci]"
