@@ -57,11 +57,11 @@
   <!-- ========================================== -->
   <!-- 4. TEST PROJECT DEFAULTS                   -->
   <!-- ========================================== -->
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or $(MSBuildProjectName.EndsWith('.Tests'))">
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or '$(MSBuildProjectName)' == 'ut' Or '$(MSBuildProjectName)' == 'it'">
 
     <!-- Standard Test Project Settings -->
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <GenerateProgramFile>false</GenerateProgramFile>
+    <GenerateProgramFile>true</GenerateProgramFile>
     <IsPackable>false</IsPackable>
     <OutputType>library</OutputType>
 
