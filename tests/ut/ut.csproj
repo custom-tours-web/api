@@ -28,8 +28,7 @@
     <PackageReference Include="NUnit.Analyzers" />
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Moq" />
-    <!-- Updated to 'coverlet.collector' to support your .runsettings file -->
-    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="coverlet.msbuild" />
   </ItemGroup>
 
   <!-- ========================================== -->
