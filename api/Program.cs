@@ -6,6 +6,7 @@ using api.Repositories;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +45,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference(); // Interactive UI for OpenAPI testing
 }
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 // Standard middleware pipeline execution order
 app.UseHttpsRedirection();
 app.UseAuthorization();

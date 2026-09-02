@@ -6,7 +6,6 @@ using AutoMapper;
 namespace api.Services;
 
 /// <summary>
-/// Implements the business logic for managing booking requests.
 /// Orchestrates data mapping, persistence via the repository, and returning standardized responses.
 /// </summary>
 public class BookingRequestService(
@@ -42,29 +41,25 @@ public class BookingRequestService(
     /// <returns>A structured response containing the outcome of the booking operation.</returns>
     public async Task<BookingResponseDTO> CreateBookingRequestAsync(BookingRequestDTO dto)
     {
-        try
-        {
-            _logger.LogDebug("Starting creation of booking request for customer: {CustomerName}", dto.FullName);
+        var sanitizedName = dto.FullName?
+            .Replace(Environment.NewLine, string.Empty)
+            .Replace("\n", string.Empty)
+            .Replace("\r", string.Empty);
 
-            BookingRequest bookingRequest = _mapper.Map<BookingRequest>(dto);
+        _logger.LogDebug("Starting creation of booking request for customer: {CustomerName}", sanitizedName);
 
-            await _repository.AddAsync(bookingRequest);
+        BookingRequest bookingRequest = _mapper.Map<BookingRequest>(dto);
 
-            _logger.LogInformation("Successfully processed and saved booking request. Generated ID: {BookingId}", bookingRequest.Id);
+        await _repository.AddAsync(bookingRequest);
 
-            return new BookingResponseDTO(
-                bookingRequest.Id,
-                "Booking request submitted successfully.",
-                bookingRequest.Status.ToString(),
-                bookingRequest.CreatedAt
-            );
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred in the service layer while creating a booking request for customer: {CustomerName}", dto.FullName);
+        _logger.LogInformation("Successfully processed and saved booking request. Generated ID: {BookingId}", bookingRequest.Id);
 
-            throw;
-        }
+        return new BookingResponseDTO(
+            bookingRequest.Id,
+            "Booking request submitted successfully.",
+            bookingRequest.Status.ToString(),
+            bookingRequest.CreatedAt
+        );
     }
 
     #endregion
