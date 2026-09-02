@@ -24,35 +24,35 @@ var publishDir = artifactsDir.Combine(Directory("publish"));
 //////////////////////////////////////////////////////////////////////
 Setup(ctx =>
 {
-    Information("========================================");
-    Information($"🚀 Starting CI Build Step");
-    Information($"🎯 Target: {target}");
-    Information($"⚙️  Configuration: {configuration}");
-    Information("========================================");
+  Information("========================================");
+  Information($"🚀 Starting CI Build Step");
+  Information($"🎯 Target: {target}");
+  Information($"⚙️  Configuration: {configuration}");
+  Information("========================================");
 });
 
 TaskSetup(setupContext =>
 {
-    Information($"\n▶️ Starting Task: {setupContext.Task.Name}...");
+  Information($"\n▶️ Starting Task: {setupContext.Task.Name}...");
 });
 
 TaskTeardown(teardownContext =>
 {
-    Information($"⏸️ Finished Task: {teardownContext.Task.Name} (Duration: {teardownContext.Duration})");
+  Information($"⏸️ Finished Task: {teardownContext.Task.Name} (Duration: {teardownContext.Duration})");
 });
 
 Teardown(ctx =>
 {
-    if (ctx.Successful)
+  if (ctx.Successful)
+  {
+    Information("\n✅ Step completed successfully.");
+  }
+  else
+  {
+    Error("\n❌ Step failed!");
+    if (ctx.ThrownException != null)
     {
-        Information("\n✅ Step completed successfully.");
+      Error($"Failure Reason: {ctx.ThrownException.Message}");
     }
-    else
-    {
-        Error("\n❌ Step failed!");
-        if (ctx.ThrownException != null)
-        {
-            Error($"Failure Reason: {ctx.ThrownException.Message}");
-        }
-    }
+  }
 });
