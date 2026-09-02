@@ -2,8 +2,6 @@ using api.Datas;
 using api.Models;
 using api.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Moq;
 // Make sure to add the correct using statement for your Data namespace here
 // e.g., using ut.Data;
 
@@ -15,11 +13,6 @@ namespace ut.Repositories;
 [TestFixture]
 public class BookingRequestRepositoryTests
 {
-
-    /// <summary>
-    /// Mocked logger for the BookingRequestRepository to verify logging behavior during tests.
-    /// </summary>
-    private Mock<ILogger<BookingRequestRepository>> _mockLogger;
 
     /// <summary>
     /// DbContextOptions for configuring the in-memory database used in tests. Each test gets a unique database instance to ensure isolation.
@@ -42,7 +35,6 @@ public class BookingRequestRepositoryTests
     [SetUp]
     public void Setup()
     {
-        _mockLogger = new Mock<ILogger<BookingRequestRepository>>();
 
         _dbContextOptions = new DbContextOptionsBuilder<TourismDbContext>()
             .UseInMemoryDatabase(databaseName: $"TourismDb_Test_{Guid.NewGuid()}")
@@ -50,7 +42,7 @@ public class BookingRequestRepositoryTests
 
         _dbContext = new TourismDbContext(_dbContextOptions);
 
-        _repository = new BookingRequestRepository(_mockLogger.Object, _dbContext);
+        _repository = new BookingRequestRepository(_dbContext);
     }
 
     /// <summary>
