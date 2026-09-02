@@ -15,22 +15,35 @@ public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggi
     private readonly ILogger<RequestLoggingMiddleware> _logger = logger;
 
     /// <summary>
-    /// Invokes the middleware, logging the incoming request path and method.
+    /// Invokes the middleware, logging the incoming request path and method,
+    /// measuring the time taken by subsequent middlewares, and logging the final HTTP status code.
     /// </summary>
     /// <param name="context">The current HTTP context.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         var stopwatch = Stopwatch.StartNew();
 
-        _logger.LogInformation("Handling HTTP {HttpMethod} {Path}", context.Request.Method, context.Request.Path);
+        // Sanitize the request method to prevent log forging
+        var sanitizedMethod = context.Request.Method?
+            .Replace(Environment.NewLine, string.Empty)
+            .Replace("\n", string.Empty)
+            .Replace("\r", string.Empty) ?? "UNKNOWN";
+
+        // Sanitize the request path to prevent log forging
+        var sanitizedPath = context.Request.Path.Value?
+            .Replace(Environment.NewLine, string.Empty)
+            .Replace("\n", string.Empty)
+            .Replace("\r", string.Empty) ?? string.Empty;
+
+        _logger.LogInformation("Handling HTTP {HttpMethod} {Path}", sanitizedMethod, sanitizedPath);
 
         await _next(context);
 
         stopwatch.Stop();
 
         _logger.LogInformation("Finished HTTP {HttpMethod} {Path} with Status Code {StatusCode} in {ElapsedMilliseconds}ms",
-            context.Request.Method,
-            context.Request.Path,
+            sanitizedMethod,
+            sanitizedPath,
             context.Response.StatusCode,
             stopwatch.ElapsedMilliseconds);
     }
