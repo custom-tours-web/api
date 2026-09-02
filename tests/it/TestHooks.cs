@@ -5,7 +5,6 @@ namespace it;
 
 /// <summary>
 /// Provides shared HTTP client and WebApplicationFactory setup for API integration tests.
-/// Manages lifecycle and dependency injection of test infrastructure across Reqnroll scenarios.
 /// </summary>
 [Binding]
 public class TestHooks
@@ -32,7 +31,6 @@ public class TestHooks
     {
         _factory = new CustomWebApplicationFactory();
 
-        // Performs initial async initialization (e.g., seeding data or applying database migrations)
         await Task.CompletedTask;
     }
 
@@ -79,7 +77,6 @@ public class TestHooks
     [BeforeScenario("database", Order = 1)]
     public static async Task ResetDatabaseStateAsync()
     {
-        // Executes asynchronous state reset (e.g., Respawn or EF Core database checkpointing)
         await Task.CompletedTask;
     }
 

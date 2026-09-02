@@ -36,6 +36,7 @@
   <!-- 4. NUGET PACKAGES (TEST INFRASTRUCTURE)    -->
   <!-- ========================================== -->
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
