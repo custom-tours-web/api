@@ -46,9 +46,7 @@
     <PackageReference Include="Reqnroll" />
     <PackageReference Include="Reqnroll.NUnit" />
     <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" />
-
-    <!-- Updated to 'coverlet.collector' to support your .runsettings file -->
-    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="coverlet.msbuild" />
   </ItemGroup>
 
   <!-- ========================================== -->
