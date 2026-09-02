@@ -7,6 +7,7 @@
     <Title>Custom Tours &amp; Travels Web API</Title>
     <Version>1.0.0</Version>
     <Description>Production Backend API for the Custom Tours platform</Description>
+    <NoWarn>$(NoWarn);CA1848;CA1873</NoWarn>
     <UserSecretsId></UserSecretsId>
   </PropertyGroup>
 
