@@ -6,7 +6,7 @@
       "version": "0.0.1"
     },
 
-    "solution": "./api.slnx",
+    "solution": "./api.sln",
     "project": "api.csproj",
     "test-projects": [
       "./tests/it/it.csproj",
@@ -15,11 +15,15 @@
 
     "mutate": [
       "**/*.cs",
+      "!DTOs/**/*",
       "!Models/**/*",
       "!Datas/**/*",
       "!**/Program.cs"
     ],
     "mutation-level": "Complete",
+    "ignore-methods": [
+      "Log*"
+    ],
 
     "coverage-analysis": "all",
     "break-on-initial-test-failure": true,
