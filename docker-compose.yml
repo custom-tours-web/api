@@ -1,0 +1,17 @@
+services:
+  api:
+    image: custom-tours-api:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5166:5166"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5166
+      - ConnectionStrings__Default=Data Source=/app/data/tourism.db
+    volumes:
+      - tourism_db_data:/app/data
+
+volumes:
+  tourism_db_data:

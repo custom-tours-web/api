@@ -5,6 +5,7 @@ using api.Models;
 using api.Repositories;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
 using api.Middlewares;
 
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region Service Configuration (DI Container)
 
 // Only register the production/development database if we are NOT running integration tests
+builder.Services.AddHealthChecks().AddDbContextCheck<TourismDbContext>();
 if (!builder.Environment.IsEnvironment("Testing"))
     builder.Services.AddDbContext<TourismDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
@@ -50,6 +52,20 @@ app.UseMiddleware<RequestLoggingMiddleware>();
 // Standard middleware pipeline execution order
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.MapGet("/health", async (HealthCheckService healthChecks) =>
+{
+    var report = await healthChecks.CheckHealthAsync();
+    var statusCode = report.Status == HealthStatus.Healthy
+        ? StatusCodes.Status200OK
+        : StatusCodes.Status503ServiceUnavailable;
+
+    return Results.Json(
+        new { status = report.Status.ToString() },
+        statusCode: statusCode);
+})
+.Produces(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status503ServiceUnavailable)
+.WithTags("System Health");
 app.MapControllers();
 
 #endregion
