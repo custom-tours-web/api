@@ -50,10 +50,16 @@ public class BookingRequest
     public string Destination { get; set; } = string.Empty;
 
     /// <summary>
-    /// The specific date the customer wishes to take the tour.
+    /// The first date of the requested tour.
     /// </summary>
     [Required]
-    public DateOnly TourDate { get; set; }
+    public DateOnly FromDate { get; set; }
+
+    /// <summary>
+    /// The last date of the requested tour, on or after the start date.
+    /// </summary>
+    [Required]
+    public DateOnly ToDate { get; set; }
 
     /// <summary>
     /// The total number of people participating in the tour.

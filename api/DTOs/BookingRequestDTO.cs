@@ -9,7 +9,8 @@ namespace api.DTOs;
 /// <param name="PhoneNumber">A valid contact phone number.</param>
 /// <param name="CurrentLocation">The starting location of the tour.</param>
 /// <param name="Destination">The intended destination for the tour.</param>
-/// <param name="TourDate">The date the tour is requested for. Must be in the future.</param>
+/// <param name="FromDate">The starting date of the tour. Must be in the future.</param>
+/// <param name="ToDate">The ending date of the tour. Must be on or after the starting date.</param>
 /// <param name="NumberOfMembers">The total number of people participating in the tour (1-100).</param>
 /// <param name="SpecialRequests">Any optional special requests or accommodations.</param>
 public record BookingRequestDTO(
@@ -17,7 +18,8 @@ public record BookingRequestDTO(
     [Required, Phone] string PhoneNumber,
     [Required, MaxLength(150)] string CurrentLocation,
     [Required, MaxLength(150)] string Destination,
-    [Required] DateOnly TourDate,
+    [Required] DateOnly FromDate,
+    [Required] DateOnly ToDate,
     [Required, Range(1, 100)] int NumberOfMembers,
     [MaxLength(500)] string? SpecialRequests
 ) : IValidatableObject
@@ -42,11 +44,19 @@ public record BookingRequestDTO(
 
         // Validate that the tour date is strictly in the future
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
-        if (TourDate <= today)
+        if (FromDate <= today)
         {
             yield return new ValidationResult(
-                "Tour date must be in the future.",
-                [nameof(TourDate)]
+                "Tour start date must be in the future.",
+                [nameof(FromDate)]
+            );
+        }
+
+        if (ToDate < FromDate)
+        {
+            yield return new ValidationResult(
+                "Tour end date cannot be before the start date.",
+                [nameof(ToDate)]
             );
         }
     }

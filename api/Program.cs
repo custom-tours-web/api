@@ -35,6 +35,17 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); // Generates OpenAPI specifications
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("UiCorsPolicy", policy =>
+    {
+        policy
+            .WithOrigins("http://127.0.0.1:5500")
+            .WithMethods("POST")
+            .WithHeaders("Content-Type");
+    });
+});
+
 #endregion
 
 var app = builder.Build();
@@ -50,6 +61,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 // Standard middleware pipeline execution order
+app.UseCors("UiCorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapGet("/health", async (HealthCheckService healthChecks) =>

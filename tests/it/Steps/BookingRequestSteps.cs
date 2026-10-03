@@ -44,6 +44,7 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
             "New York",
             destination,
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
             2,
             "Aisle seat preferred"
         );
@@ -61,6 +62,7 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
             "+91-8428-558-275",
             "New York",
             "Coimbatore",
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
             2,
             null
@@ -80,6 +82,7 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
             location,
             location,
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
             2,
             null
         );
@@ -97,6 +100,26 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
             "Tiruppur",
             "Coimbatore",
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-5)),
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-5)),
+            2,
+            null
+        );
+    }
+
+    /// <summary>
+    /// Sets up a booking request whose end date is before its start date.
+    /// </summary>
+    [Given("I have a booking request payload where the end date is before the start date")]
+    public void GivenIHaveABookingRequestPayloadWithAnInvalidDateRange()
+    {
+        var startDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30));
+        _requestPayload = new BookingRequestDTO(
+            "Prasad",
+            "+91-8428-558-275",
+            "Tiruppur",
+            "Coimbatore",
+            startDate,
+            startDate.AddDays(-1),
             2,
             null
         );
@@ -160,6 +183,8 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
         {
             Assert.That(responseContent!.Status, Is.EqualTo("Pending"));
             Assert.That(responseContent.Id, Is.GreaterThan(0));
+            Assert.That(responseContent.CreatedAt, Is.GreaterThan(DateTimeOffset.MinValue));
+            Assert.That(responseContent.CreatedAt, Is.LessThanOrEqualTo(DateTimeOffset.UtcNow));
         }
 
     }

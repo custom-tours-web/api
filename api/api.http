@@ -23,7 +23,8 @@ Accept: application/json
   "phoneNumber": "+91 8428-558-275",
   "currentLocation": "Tiruppur",
   "destination": "Coimbatore",
-  "tourDate": "2026-09-05",
+  "fromDate": "2026-09-05",
+  "toDate": "2026-09-06",
   "numberOfMembers": 1,
   "specialRequests": "Require vegetarian meal options."
 }

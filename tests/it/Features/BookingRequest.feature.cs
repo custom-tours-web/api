@@ -106,7 +106,7 @@ namespace it.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/BookingRequest.feature.ndjson", 6);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/BookingRequest.feature.ndjson", 7);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -147,7 +147,7 @@ namespace it.Features
             }
             await this.ScenarioCleanupAsync();
         }
-        
+
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Failing validation due to missing required fields")]
         [global::NUnit.Framework.NonParallelizableAttribute()]
@@ -251,6 +251,41 @@ namespace it.Features
     await testRunner.WhenAsync("I submit the POST request to \"/api/v1/booking-requests\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 29
+    await testRunner.ThenAsync("the API should return a 400 Bad Request status code", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Failing validation when the end date is before the start date")]
+        [global::NUnit.Framework.NonParallelizableAttribute()]
+        [global::NUnit.Framework.CategoryAttribute("database")]
+        public async global::System.Threading.Tasks.Task FailingValidationWhenTheEndDateIsBeforeTheStartDate()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "database"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Failing validation when the end date is before the start date", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 32
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 33
+    await testRunner.GivenAsync("I have a booking request payload where the end date is before the start date", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 34
+    await testRunner.WhenAsync("I submit the POST request to \"/api/v1/booking-requests\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 35
     await testRunner.ThenAsync("the API should return a 400 Bad Request status code", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

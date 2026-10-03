@@ -58,7 +58,7 @@ public class BookingRequestService(
             bookingRequest.Id,
             "Booking request submitted successfully.",
             bookingRequest.Status.ToString(),
-            bookingRequest.CreatedAt
+            DateTimeOffset.UtcNow
         );
     }
 

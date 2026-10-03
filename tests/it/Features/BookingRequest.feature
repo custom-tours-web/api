@@ -27,3 +27,9 @@ Feature: Create Booking Request
     Given I have a booking request payload with a tour date in the past
     When I submit the POST request to "/api/v1/booking-requests"
     Then the API should return a 400 Bad Request status code
+
+  @database
+  Scenario: Failing validation when the end date is before the start date
+    Given I have a booking request payload where the end date is before the start date
+    When I submit the POST request to "/api/v1/booking-requests"
+    Then the API should return a 400 Bad Request status code

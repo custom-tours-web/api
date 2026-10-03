@@ -6,7 +6,7 @@ namespace api.DTOs;
 /// <param name="Id">The unique identifier of the newly created booking request.</param>
 /// <param name="Message">A human-readable message describing the result of the operation.</param>
 /// <param name="Status">The current status of the booking (e.g., "Pending", "Confirmed", "Rejected").</param>
-/// <param name="CreatedAt">The UTC timestamp indicating when the booking response was generated.</param>
+/// <param name="CreatedAt">The UTC timestamp indicating when the booking request was created.</param>
 public record BookingResponseDTO(
     int Id,
     string Message,
