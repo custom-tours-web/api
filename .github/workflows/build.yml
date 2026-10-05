@@ -159,7 +159,7 @@ jobs:
       # 6. ARTIFACT ARCHIVING & RELEASE PACKAGING
       # ==========================================
       - name: 📦 Upload Test Results & Coverage Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: unit-and-integration-test-results
@@ -167,7 +167,7 @@ jobs:
           if-no-files-found: warn
 
       - name: 📦 Upload Mutation Test HTML Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: stryker-mutation-report
@@ -175,7 +175,7 @@ jobs:
           if-no-files-found: warn
 
       - name: 📦 Upload App Release Binaries
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: success()
         with:
           name: app-release-binaries
