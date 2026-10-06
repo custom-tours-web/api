@@ -1,2 +1,4 @@
 artifacts
 .DS_Store
+StrykerOutput
+.vscode
