@@ -23,6 +23,12 @@ if (!builder.Environment.IsEnvironment("Testing"))
 // Scoped lifecycle ensures a new instance is created per HTTP request.
 builder.Services.AddScoped<IBookingRequestRepository, BookingRequestRepository>();
 builder.Services.AddScoped<IBookingRequestService, BookingRequestService>();
+builder.Services.Configure<BookingNotificationFeatures>(builder.Configuration.GetSection("BookingNotifications"));
+builder.Services.AddScoped<IBookingEmailTransport, SmtpBookingEmailTransport>();
+builder.Services.AddScoped<IBookingEmailNotifier, SmtpBookingEmailNotifier>();
+builder.Services.Configure<BookingEmailOptions>(builder.Configuration.GetSection("BookingEmail"));
+builder.Services.AddHttpClient<IWhatsAppNotifier, MetaWhatsAppNotifier>();
+builder.Services.Configure<MetaWhatsAppOptions>(builder.Configuration.GetSection("MetaWhatsApp"));
 
 // 3. Third-Party Libraries (AutoMapper)
 // Configures object-to-object mapping profiles for DTOs and Data Models.

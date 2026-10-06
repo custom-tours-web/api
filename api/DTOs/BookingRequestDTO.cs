@@ -21,7 +21,7 @@ public record BookingRequestDTO(
     [Required] DateOnly FromDate,
     [Required] DateOnly ToDate,
     [Required, Range(1, 100)] int NumberOfMembers,
-    [MaxLength(500)] string? SpecialRequests
+    [MaxLength(500)] string? SpecialRequests = null
 ) : IValidatableObject
 {
     #region Validation Logic
