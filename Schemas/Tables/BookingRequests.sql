@@ -1,7 +1,7 @@
   CREATE TABLE IF NOT EXISTS BookingRequests (
       Id INTEGER PRIMARY KEY AUTOINCREMENT,
       FullName TEXT NOT NULL CHECK(length(FullName) > 0 AND length(FullName) <= 100),
-      PhoneNumber TEXT UNIQUE NOT NULL CHECK(length(PhoneNumber) > 0 AND length(PhoneNumber) <= 20),
+      PhoneNumber TEXT NOT NULL CHECK(length(PhoneNumber) > 0 AND length(PhoneNumber) <= 20),
       CurrentLocation TEXT NOT NULL CHECK(length(CurrentLocation) > 0 AND length(CurrentLocation) <= 150),
       Destination TEXT NOT NULL CHECK(length(Destination) > 0 AND length(Destination) <= 150),
       FromDate TEXT NOT NULL CHECK(date(FromDate) IS NOT NULL),
