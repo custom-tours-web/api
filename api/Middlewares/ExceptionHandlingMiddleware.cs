@@ -11,7 +11,15 @@ namespace api.Middlewares;
 [ExcludeFromCodeCoverage]
 public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
+
+    /// <summary>
+    /// The next request delegate in the ASP.NET Core pipeline.
+    /// </summary>
     private readonly RequestDelegate _next = next;
+
+    /// <summary>
+    /// The logger instance used to record exception details.
+    /// </summary>
     private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
     /// <summary>
@@ -33,7 +41,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
     }
 
     /// <summary>
-    /// Formats and writes a standardized JSON error response to the HTTP context.
+    /// Formats & writes a standardized JSON error response to the HTTP context.
     /// </summary>
     /// <param name="context">The current HTTP context that encountered the exception.</param>
     private static async Task HandleExceptionAsync(HttpContext context)

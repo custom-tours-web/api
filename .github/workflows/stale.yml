@@ -21,9 +21,7 @@ jobs:
 
     steps:
 
-      # ==========================================
-      # 1. MARK & CLOSE STALE ISSUES AND PRS
-      # ==========================================
+      # MARK & CLOSE STALE ISSUES AND PRS
       - name: 🤖 Manage Stale Items
         uses: actions/stale@v11
 

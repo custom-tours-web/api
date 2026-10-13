@@ -13,7 +13,7 @@ namespace it;
 /// <summary>
 /// Custom WebApplicationFactory for integration testing the API.
 /// Overrides application configuration, database contexts, background services,
-/// and logging to ensure isolated, repeatable test execution.
+/// & logging to ensure isolated, repeatable test execution.
 /// </summary>
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
@@ -29,7 +29,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     #region Host Configuration
 
     /// <summary>
-    /// Configures the test web host with testing configuration, isolated database providers, and test doubles.
+    /// Configures the test web host with testing configuration, isolated database providers, & test doubles.
     /// </summary>
     /// <param name="builder">The web host builder to configure for testing.</param>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -52,7 +52,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             });
         });
 
-        // Restrict and format logging output during test execution
+        // Restrict & format logging output during test execution
         builder.ConfigureLogging(logging =>
         {
             logging.ClearProviders();
@@ -67,10 +67,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             RemoveHostedServices(services);
 
             // Safely inject the completely isolated In-Memory database
-            services.AddDbContext<TourismDbContext>(options =>
-            {
-                options.UseInMemoryDatabase(DatabaseName);
-            });
+            services.AddDbContext<TourismDbContext>(options => options.UseInMemoryDatabase(DatabaseName));
         });
     }
 
@@ -84,10 +81,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     private static void RemoveHostedServices(IServiceCollection services)
     {
         var hostedServices = services.Where(d => d.ServiceType == typeof(IHostedService)).ToList();
-        foreach (var service in hostedServices)
-        {
-            services.Remove(service);
-        }
+        foreach (var service in hostedServices) services.Remove(service);
     }
 
     #endregion

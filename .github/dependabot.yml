@@ -1,59 +1,55 @@
 # 🤖 Dependabot Configuration
-# 📦 Automatically checks for dependency updates and creates pull requests.
+# 📦 Automatically checks for dependency updates & creates pull requests.
 # 📚 Documentation: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 
 updates:
 
-  # ==========================================
-  # 1. NET / NUGET DEPENDENCIES
-  # ==========================================
-  - package-ecosystem: "nuget"
-    directory: "/"
+  # NET / NUGET DEPENDENCIES
+  - package-ecosystem: 'nuget'
+    directory: '/'
 
     # 🗓️ Schedule & Cadence
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: 'weekly'
+      day: 'monday'
 
     # 🏷️ PR Labeling & Grouping
     labels:
-      - "chore"
-      - "dependencies"
+      - 'chore'
+      - 'dependencies'
     groups:
       dotnet-dependencies:
         patterns:
-          - "*"
+          - '*'
 
     # 📝 Commit Message Settings
     commit-message:
-      prefix: "chore"
-      prefix-development: "chore"
-      include: "scope"
+      prefix: 'chore'
+      prefix-development: 'chore'
+      include: 'scope'
 
-  # ==========================================
-  # 2. GITHUB ACTIONS DEPENDENCIES
-  # ==========================================
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  # GITHUB ACTIONS DEPENDENCIES
+  - package-ecosystem: 'github-actions'
+    directory: '/'
 
     # 🗓️ Schedule & Cadence
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: 'weekly'
+      day: 'monday'
 
     # 🏷️ PR Labeling & Grouping
     labels:
-      - "chore"
-      - "dependencies"
+      - 'chore'
+      - 'dependencies'
     groups:
       actions-dependencies:
         patterns:
-          - "*"
+          - '*'
 
     # 📝 Commit Message Settings
     commit-message:
-      prefix: "chore"
-      prefix-development: "chore"
-      include: "scope"
+      prefix: 'chore'
+      prefix-development: 'chore'
+      include: 'scope'

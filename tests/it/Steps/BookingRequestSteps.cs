@@ -30,7 +30,7 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
     #region Given Steps
 
     /// <summary>
-    /// Sets up a valid booking request payload for a traveler with the specified full name and destination.
+    /// Sets up a valid booking request payload for a traveler with the specified full name & destination.
     /// </summary>
     /// <param name="fullName">The full name of the traveler.</param>
     /// <param name="destination">The destination of the booking.</param>
@@ -70,7 +70,7 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
     }
 
     /// <summary>
-    /// Sets up a booking request payload where the current location and destination are both specified by the {string} parameter.
+    /// Sets up a booking request payload where the current location & destination are both specified by the {string} parameter.
     /// </summary>
     /// <param name="location">The location of the traveler.</param>
     [Given("I have a booking request payload where the current location and destination are both {string}")]
@@ -168,15 +168,14 @@ public class CreateBookingRequestSteps(HttpClient httpClient)
     }
 
     /// <summary>
-    /// The response body from the API contains a booking status of "Pending" and a valid booking ID greater than 0.
+    /// The response body from the API contains a booking status of "Pending" & a valid booking ID greater than 0.
     /// </summary>
     [Then("the response body should contain the pending booking status")]
     public async Task ThenTheResponseBodyShouldContainThePendingBookingStatus()
     {
         ArgumentNullException.ThrowIfNull(_response);
 
-        var responseContent = await _response.Content.ReadFromJsonAsync<BookingResponseDTO>(
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        var responseContent = await _response.Content.ReadFromJsonAsync<BookingResponseDTO>(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         Assert.That(responseContent, Is.Not.Null);
         using (Assert.EnterMultipleScope())

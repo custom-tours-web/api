@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copy project files and configuration
+# Copy project files & configuration
 COPY ["api.sln", "./"]
 COPY ["api/api.csproj", "api/"]
 COPY ["global.json", "nuget.config", "Directory.Packages.props", "Directory.Build.props", "Directory.Build.targets", "./"]
@@ -10,11 +10,11 @@ COPY ["global.json", "nuget.config", "Directory.Packages.props", "Directory.Buil
 # Restore dependencies
 RUN dotnet restore "api/api.csproj"
 
-# Copy the remaining application code (including the SQL script)
+# Copy the remaining application code
 COPY . .
 WORKDIR "/src/api"
 
-# Build and publish
+# Build & publish
 RUN dotnet publish "api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # RUNTIME STAGE

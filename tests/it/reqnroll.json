@@ -6,22 +6,16 @@
   "bindingCulture": {
     "name": "en-US"
   },
-
   "runtime": {
     "missingOrPendingStepsOutcome": "Error",
     "obsoleteBehavior": "Error",
     "stopAtFirstError": false
   },
-
   "generator": {
     "allowDebugGeneratedFiles": false,
     "allowRowTests": true,
     "disableFriendlyTestNames": false,
-    "addNonParallelizableMarkerForTags": [
-      "sequential",
-      "database",
-      "nonparallelizable"
-    ]
+    "addNonParallelizableMarkerForTags": ["sequential", "database", "nonparallelizable" ]
   },
   "trace": {
     "stepDefinitionSkeletonStyle": "CucumberExpressionAttribute"

@@ -22,7 +22,7 @@ public class BookingRequestRepository(TourismDbContext context) : IBookingReques
     #region Data Access
 
     /// <summary>
-    /// Asynchronously adds a new booking request to the database and commits the transaction.
+    /// Asynchronously adds a new booking request to the database & commits the transaction.
     /// </summary>
     /// <param name="request">The booking request entity to insert.</param>
     /// <returns>A task that represents the asynchronous database operation.</returns>

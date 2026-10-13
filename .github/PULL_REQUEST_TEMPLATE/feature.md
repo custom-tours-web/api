@@ -1,17 +1,17 @@
 # ✨ Feature Implementation
 
 ## 📝 What does this feature do?
-<!-- 💡 Describe the purpose of this feature, the problem it solves, and the overall approach you took. -->
+<!-- 💡 Describe the purpose of this feature, the problem it solves, & the overall approach you took. -->
 *
 
 ## 🔗 Related Issue(s)
-<!-- 🎯 Link to any related Jira tickets, GitHub issues, or board tasks (e.g., "Fixes #123") -->
+<!-- 🎯 Link to any related Jira tickets, GitHub issues, or board tasks (e.g., 'Fixes #123') -->
 *
 
 ## ⚠️ Breaking Change Check
 <!-- 🚨 Does this new feature introduce any breaking changes to existing APIs, database schemas, or client integrations? -->
-* [ ] 🟢 **No**, this is purely additive and fully backward-compatible.
-* [ ] 🔴 **Yes**, this contains breaking changes. *(If yes, please detail the impact and migration path below.)*
+* [ ] 🟢 **No**, this is purely additive & fully backward-compatible.
+* [ ] 🔴 **Yes**, this contains breaking changes. *(If yes, please detail the impact & migration path below.)*
   * 📌 **Details:**
 
 ## 🌍 Environments Tested In
@@ -30,15 +30,15 @@
 * [ ] 🔄 All Integration Tests (IT) have passed.
 * [ ] 🆕 **New UT cases** have been added to cover the new feature logic.
 * [ ] 🆕 **New IT cases** have been added to cover the new feature logic.
-* [ ] 📊 Line and Branch Code Coverage is **>= 75%**.
+* [ ] 📊 Line & Branch Code Coverage is **>= 75%**.
 * [ ] 🧬 Mutation Testing score is **>= 75%**.
 
 ### 🛡️ Code Quality & Security
 
 * [ ] 👀 I have performed a self-review of my own code.
 * [ ] 🔐 There are no hardcoded secrets, connection strings, or sensitive data.
-* [ ] 🧹 The code follows project linting and architectural guidelines.
-* [ ] 🗄️ Any required database migration scripts have been created, tested, and reviewed.
+* [ ] 🧹 The code follows project linting & architectural guidelines.
+* [ ] 🗄️ Any required database migration scripts have been created, tested, & reviewed.
 
 ### 🚀 Deployment & Maintenance
 

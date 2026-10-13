@@ -13,18 +13,13 @@ public partial class TourismDbContext : DbContext
     /// <summary>
     /// Initializes a new instance of the <see cref="TourismDbContext"/> class.
     /// </summary>
-    public TourismDbContext()
-    {
-    }
+    public TourismDbContext() {}
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TourismDbContext"/> class with the specified options.
     /// </summary>
     /// <param name="options">The configuration options for this context.</param>
-    public TourismDbContext(DbContextOptions<TourismDbContext> options)
-        : base(options)
-    {
-    }
+    public TourismDbContext(DbContextOptions<TourismDbContext> options) : base(options) {}
 
     #endregion
 
@@ -40,22 +35,16 @@ public partial class TourismDbContext : DbContext
     #region Configuration
 
     /// <summary>
-    /// Configures the database connections and options.
+    /// Configures the database connections & options.
     /// </summary>
     /// <param name="optionsBuilder">A builder used to create or modify options for this context.</param>
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => base.OnConfiguring(optionsBuilder);
 
     /// <summary>
-    /// Configures the database schema, entity models, and relationships.
+    /// Configures the database schema, entity models, & relationships.
     /// </summary>
     /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        OnModelCreatingPartial(modelBuilder);
-    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) => OnModelCreatingPartial(modelBuilder);
 
     /// <summary>
     /// A partial method hook for external configuration injected by source generators or partial classes.

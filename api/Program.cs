@@ -16,28 +16,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Only register the production/development database if we are NOT running integration tests
 builder.Services.AddHealthChecks().AddDbContextCheck<TourismDbContext>();
 if (!builder.Environment.IsEnvironment("Testing"))
-    builder.Services.AddDbContext<TourismDbContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+    builder.Services.AddDbContext<TourismDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
-// 2. Application Services & Repositories
+// Application Services & Repositories
 // Scoped lifecycle ensures a new instance is created per HTTP request.
 builder.Services.AddScoped<IBookingRequestRepository, BookingRequestRepository>();
 builder.Services.AddScoped<IBookingRequestService, BookingRequestService>();
-builder.Services.Configure<BookingNotificationFeatures>(builder.Configuration.GetSection("BookingNotifications"));
+builder.Services.Configure<BookingNotificationFeaturesDTO>(builder.Configuration.GetSection("BookingNotifications"));
 builder.Services.AddScoped<IBookingEmailTransport, SmtpBookingEmailTransport>();
 builder.Services.AddScoped<IBookingEmailNotifier, SmtpBookingEmailNotifier>();
-builder.Services.Configure<BookingEmailOptions>(builder.Configuration.GetSection("BookingEmail"));
+builder.Services.Configure<BookingEmailOptionsDTO>(builder.Configuration.GetSection("BookingEmail"));
 builder.Services.AddHttpClient<IWhatsAppNotifier, MetaWhatsAppNotifier>();
-builder.Services.Configure<MetaWhatsAppOptions>(builder.Configuration.GetSection("MetaWhatsApp"));
+builder.Services.Configure<MetaWhatsAppOptionsDTO>(builder.Configuration.GetSection("MetaWhatsApp"));
 
-// 3. Third-Party Libraries (AutoMapper)
-// Configures object-to-object mapping profiles for DTOs and Data Models.
+// Third-Party Libraries (AutoMapper)
+// Configures object-to-object mapping profiles for DTOs & Data Models.
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.CreateMap<BookingRequestDTO, BookingRequest>();
 });
 
-// 4. API & Controller Setup
+// API & Controller Setup
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); // Generates OpenAPI specifications
 
@@ -73,17 +72,10 @@ app.UseAuthorization();
 app.MapGet("/health", async (HealthCheckService healthChecks) =>
 {
     var report = await healthChecks.CheckHealthAsync();
-    var statusCode = report.Status == HealthStatus.Healthy
-        ? StatusCodes.Status200OK
-        : StatusCodes.Status503ServiceUnavailable;
+    var statusCode = report.Status == HealthStatus.Healthy ? StatusCodes.Status200OK : StatusCodes.Status503ServiceUnavailable;
 
-    return Results.Json(
-        new { status = report.Status.ToString() },
-        statusCode: statusCode);
-})
-.Produces(StatusCodes.Status200OK)
-.Produces(StatusCodes.Status503ServiceUnavailable)
-.WithTags("System Health");
+    return Results.Json(new { status = report.Status.ToString() }, statusCode: statusCode);
+}).Produces(StatusCodes.Status200OK).Produces(StatusCodes.Status503ServiceUnavailable).WithTags("System Health");
 app.MapControllers();
 
 #endregion

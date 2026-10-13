@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version='1.0' encoding='utf-8' ?>
 <RunSettings>
 
-  <!-- ========================================== -->
-  <!-- 1. GLOBAL TEST EXECUTION                   -->
-  <!-- ========================================== -->
+  <!-- GLOBAL TEST EXECUTION -->
   <RunConfiguration>
     <!-- Use 0 to utilize all available CPU cores for parallel test execution -->
     <MaxCpuCount>0</MaxCpuCount>
@@ -11,22 +9,18 @@
     <TestSessionTimeout>300000</TestSessionTimeout>
   </RunConfiguration>
 
-  <!-- ========================================== -->
-  <!-- 2. CI/CD LOGGING                           -->
-  <!-- ========================================== -->
+  <!-- CI/CD LOGGING -->
   <LoggerRunSettings>
     <Loggers>
       <!-- Ensure a TRX file is always generated for CI test dashboards -->
-      <Logger friendlyName="trx" enabled="True" />
+      <Logger friendlyName='trx' enabled='True' />
     </Loggers>
   </LoggerRunSettings>
 
-  <!-- ========================================== -->
-  <!-- 3. CODE COVERAGE (COVERLET)                -->
-  <!-- ========================================== -->
+  <!-- CODE COVERAGE -->
   <DataCollectionRunSettings>
     <DataCollectors>
-      <DataCollector friendlyName="XPlat code coverage" enabled="True">
+      <DataCollector friendlyName='XPlat code coverage' enabled='True'>
         <Configuration>
 
           <!-- Format & Output -->

@@ -17,9 +17,7 @@ jobs:
 
     steps:
 
-      # ==========================================
-      # 1. SEMANTIC PR TITLE VALIDATION
-      # ==========================================
+      # SEMANTIC PR TITLE VALIDATION
       - name: 📝 Check PR Title
         uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
 

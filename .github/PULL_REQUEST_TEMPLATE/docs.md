@@ -3,11 +3,11 @@
 > 📖 **Documentation Change** — This PR updates, improves, clarifies, or expands project documentation. 💡🔍
 
 ## 📝 What is being updated? 🔄
-<!-- 📌 Describe the specific files or sections you are changing (e.g., "Updated the API setup instructions in the README", "Fixed typos in the Swagger comments for the User endpoint"). -->
+<!-- 📌 Describe the specific files or sections you are changing (e.g., 'Updated the API setup instructions in the README', 'Fixed typos in the Swagger comments for the User endpoint'). -->
 *
 
 ## 💡 Why is this necessary? 🎯
-<!-- 🤔 Briefly explain why this update is needed (e.g., "Instructions were outdated after the v2.0 release", "Clarifying confusing terminology"). -->
+<!-- 🤔 Briefly explain why this update is needed (e.g., 'Instructions were outdated after the v2.0 release', 'Clarifying confusing terminology'). -->
 *
 
 ## 🔗 Related Issue(s) 🎫
@@ -18,27 +18,27 @@
 
 ### ✍️ Content & Formatting 🎨
 
-* [ ] 🔤 I have read through my changes for spelling and grammar errors.
+* [ ] 🔤 I have read through my changes for spelling & grammar errors.
 * [ ] 📐 The formatting (Markdown, HTML, or code blocks) renders correctly.
-* [ ] 🔗 I have verified that all new and modified hyperlinks work properly.
-* [ ] 📑 Headings, sections, lists, and tables follow the project's documentation standards.
+* [ ] 🔗 I have verified that all new & modified hyperlinks work properly.
+* [ ] 📑 Headings, sections, lists, & tables follow the project's documentation standards.
 * [ ] 🧹 Unnecessary, duplicated, or outdated content has been removed.
-* [ ] 🗣️ The terminology is clear, consistent, and easy to understand.
+* [ ] 🗣️ The terminology is clear, consistent, & easy to understand.
 
 ### 🧪 Technical Accuracy ⚙️
 
-* [ ] 💻 Code examples provided in the documentation have been tested and are working.
+* [ ] 💻 Code examples provided in the documentation have been tested & are working.
 * [ ] 🔄 The documented behavior matches the current application behavior.
 * [ ] 🛡️ This change does **NOT** expose secrets, credentials, tokens, or sensitive information.
 * [ ] 🚫 This change does **NOT** include any accidental alterations to application code or business logic.
-* [ ] 📦 Version numbers, dependencies, commands, and configuration examples are accurate.
-* [ ] 🏗️ Architecture diagrams and technical references are up to date.
+* [ ] 📦 Version numbers, dependencies, commands, & configuration examples are accurate.
+* [ ] 🏗️ Architecture diagrams & technical references are up to date.
 
 ### 🔍 Reviewer Verification 👀
 
-* [ ] 👀 The documentation has been reviewed for clarity and completeness.
+* [ ] 👀 The documentation has been reviewed for clarity & completeness.
 * [ ] 🎯 The intended audience can follow the instructions without additional clarification.
-* [ ] 🔗 All referenced files, APIs, repositories, and resources are accessible.
+* [ ] 🔗 All referenced files, APIs, repositories, & resources are accessible.
 * [ ] 🧪 Setup / installation instructions have been validated where applicable.
 
 ## 📸 Preview / Screenshots 🖼️

@@ -1,8 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk='Microsoft.NET.Sdk'>
 
-  <!-- ========================================== -->
-  <!-- 1. PROJECT CONFIGURATION                   -->
-  <!-- ========================================== -->
+  <!-- PROJECT CONFIGURATION -->
   <PropertyGroup>
     <!-- Triggers test rules and Reqnroll validation -->
     <IsTestProject>true</IsTestProject>
@@ -15,47 +13,39 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
-  <!-- ========================================== -->
-  <!-- 2. SYSTEM UNDER TEST (SUT) REFERENCE       -->
-  <!-- ========================================== -->
+  <!-- SYSTEM UNDER TEST (SUT) REFERENCE -->
   <ItemGroup>
-    <ProjectReference Include="..\..\api\api.csproj" />
+    <ProjectReference Include='..\..\api\api.csproj' />
   </ItemGroup>
 
-  <!-- ========================================== -->
-  <!-- 3. CONFIGURATION ASSETS                    -->
-  <!-- ========================================== -->
+  <!-- CONFIGURATION ASSETS -->
   <ItemGroup>
     <!-- BDD Configuration Asset -->
-    <None Include="reqnroll.json">
+    <None Include='reqnroll.json'>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <!-- ========================================== -->
-  <!-- 4. NUGET PACKAGES (TEST INFRASTRUCTURE)    -->
-  <!-- ========================================== -->
+  <!-- NUGET PACKAGES -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Moq" />
-    <PackageReference Include="NUnit" />
-    <PackageReference Include="NUnit.Analyzers" />
-    <PackageReference Include="NUnit3TestAdapter" />
-    <PackageReference Include="Reqnroll" />
-    <PackageReference Include="Reqnroll.NUnit" />
-    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" />
-    <PackageReference Include="coverlet.msbuild" />
+    <PackageReference Include='Microsoft.EntityFrameworkCore.InMemory' />
+    <PackageReference Include='Microsoft.AspNetCore.Mvc.Testing' />
+    <PackageReference Include='Microsoft.EntityFrameworkCore' />
+    <PackageReference Include='Microsoft.NET.Test.Sdk' />
+    <PackageReference Include='Moq' />
+    <PackageReference Include='NUnit' />
+    <PackageReference Include='NUnit.Analyzers' />
+    <PackageReference Include='NUnit3TestAdapter' />
+    <PackageReference Include='Reqnroll' />
+    <PackageReference Include='Reqnroll.NUnit' />
+    <PackageReference Include='Reqnroll.Tools.MsBuild.Generation' />
+    <PackageReference Include='coverlet.msbuild' />
   </ItemGroup>
 
-  <!-- ========================================== -->
-  <!-- 5. GLOBAL USINGS                           -->
-  <!-- ========================================== -->
+  <!-- GLOBAL USINGS -->
   <ItemGroup>
-    <Using Include="NUnit.Framework" />
-    <Using Include="Reqnroll" />
+    <Using Include='NUnit.Framework' />
+    <Using Include='Reqnroll' />
   </ItemGroup>
 
 </Project>

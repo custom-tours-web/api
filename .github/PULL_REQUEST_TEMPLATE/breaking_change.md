@@ -2,8 +2,8 @@
 
 > 🛑 **Important:** This PR introduces changes that may affect existing consumers, APIs, contracts, database schemas, integrations, or application behavior. 🔄
 
-## 📝 What is changing and why? 🔍
-<!-- 💡 Describe the current behavior, the new behavior, and why we are forcing this breaking change (e.g., security compliance, major architecture overhaul). -->
+## 📝 What is changing & why? 🔍
+<!-- 💡 Describe the current behavior, the new behavior, & why we are forcing this breaking change (e.g., security compliance, major architecture overhaul). -->
 * 🔴 **Old Behavior:**
 * 🟢 **New Behavior:**
 * 🎯 **Reason for Change:**
@@ -40,20 +40,20 @@
 
 ### 🧪 Testing & Metrics 📊
 
-* [ ] ✅ All Unit Tests (UT) have passed and been updated to reflect the new contracts.
-* [ ] 🔄 All Integration Tests (IT) have passed and been updated.
+* [ ] ✅ All Unit Tests (UT) have passed & been updated to reflect the new contracts.
+* [ ] 🔄 All Integration Tests (IT) have passed & been updated.
 * [ ] 🧪 Regression tests have been added for affected functionality.
-* [ ] 📈 Line and Branch Code Coverage is **>= 75%**.
+* [ ] 📈 Line & Branch Code Coverage is **>= 75%**.
 * [ ] 🧬 Mutation Testing score is **>= 75%**.
 * [ ] 🔌 All affected API consumers have been tested against the new contract.
-* [ ] 🗄️ Database migration and compatibility scenarios have been validated.
+* [ ] 🗄️ Database migration & compatibility scenarios have been validated.
 
 ### 🧹 Code Quality & Security 🔐
 
 * [ ] 👀 I have performed a self-review of my own code.
 * [ ] 🔒 No hardcoded secrets, connection strings, or sensitive data were introduced.
 * [ ] 🛡️ Security implications of the breaking change have been reviewed.
-* [ ] 📐 The code follows project linting and architectural guidelines.
+* [ ] 📐 The code follows project linting & architectural guidelines.
 * [ ] 🧼 Deprecated or obsolete code has been removed where appropriate.
 
 ### 📢 Communication & Migration 📣
@@ -67,11 +67,11 @@
 
 ### 🚀 Deployment & Maintenance 🔄
 
-* [ ] 🗄️ Database migration scripts (if any) have been tested and reviewed.
+* [ ] 🗄️ Database migration scripts (if any) have been tested & reviewed.
 * [ ] 🔄 Deployment sequencing has been documented where multiple services are involved.
 * [ ] 🔙 A clear rollback plan is documented.
 * [ ] ⚠️ Rollback limitations for the breaking change have been explicitly documented.
-* [ ] 📡 Monitoring and alerting have been configured for potential migration issues.
+* [ ] 📡 Monitoring & alerting have been configured for potential migration issues.
 * [ ] 🏁 Post-deployment validation steps have been documented.
 
 ## 📸 Test Evidence / Payloads 🔎

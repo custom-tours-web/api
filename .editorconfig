@@ -1,14 +1,10 @@
-# ==============================================================================
 # 🚀 EditorConfig
 # https://editorconfig.org
-# ==============================================================================
 
 # This is the top-most EditorConfig file; do not search higher directories
 root = true
 
-# ==============================================================================
 # 🌍 Global Settings (Applies to all files)
-# ==============================================================================
 [*]
 charset = utf-8
 end_of_line = lf
@@ -18,37 +14,27 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 max_line_length = 120
 
-# ==============================================================================
 # 📦 Web Stack: TypeScript, HAML, Stylus, JSON, HTML
-# ==============================================================================
 [*.{ts,js,json,haml,styl,html,css,scss}]
 indent_style = space
 indent_size = 2
 
-# ==============================================================================
 # ⚙️ PowerShell Scripts
-# ==============================================================================
 [*.ps1]
 indent_style = space
 indent_size = 4
 
-# ==============================================================================
 # 📝 Markdown Files
-# ==============================================================================
 [*.md]
 trim_trailing_whitespace = false
 max_line_length = unset
 
-# ==============================================================================
-# 📄 XML, MSBuild, and Config Files
-# ==============================================================================
+# 📄 XML, MSBuild, & Config Files
 [*.{xml,csproj,vbproj,fsproj,targets,props,config,resx}]
 indent_style = space
 indent_size = 2
 
-# ==============================================================================
 # 🟢 C# Core Settings & Formatting
-# ==============================================================================
 [*.cs]
 indent_style = space
 indent_size = 4
@@ -99,11 +85,9 @@ csharp_space_between_method_declaration_parameter_list_parentheses = false
 csharp_space_between_parentheses = false
 csharp_space_between_square_brackets = false
 
-# ==============================================================================
 # 🟢 C# Code Style & Language Features
-# ==============================================================================
 
-# 'this.' and 'Me.' qualifiers
+# 'this.' & 'Me.' qualifiers
 dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
@@ -141,9 +125,7 @@ csharp_style_conditional_delegate_call = true:suggestion
 # Code block preferences
 csharp_prefer_braces = true:silent
 
-# ==============================================================================
 # 🟢 C# Naming Conventions
-# ==============================================================================
 
 # Interface Naming (IPascalCase)
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning

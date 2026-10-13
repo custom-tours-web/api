@@ -25,21 +25,19 @@ public class BookingRequestsControllerTests
     private BookingRequestsController _controller;
 
     /// <summary>
-    /// It initializes the mocked dependencies and creates a new instance of the BookingRequestsController for testing.
+    /// It initializes the mocked dependencies & creates a new instance of the BookingRequestsController for testing.
     /// </summary>
     [SetUp]
     public void Setup()
     {
         // Arrange
         _mockService = new Mock<IBookingRequestService>();
-
         _controller = new BookingRequestsController(_mockService.Object);
     }
 
     /// <summary>
     /// It tests the CreateBookingRequest action of the BookingRequestsController when a valid booking request DTO is provided.
     /// </summary>
-    /// <returns></returns>
     [Test]
     public async Task CreateBookingRequest_WithValidData_ReturnsCreatedResult()
     {
@@ -47,9 +45,7 @@ public class BookingRequestsControllerTests
         var dto = BookingTestData.GetValidBookingRequestDTO();
         var expectedResponse = BookingTestData.GetValidBookingResponseDTO();
 
-        _mockService
-            .Setup(s => s.CreateBookingRequestAsync(It.IsAny<BookingRequestDTO>()))
-            .ReturnsAsync(expectedResponse);
+        _mockService.Setup(s => s.CreateBookingRequestAsync(It.IsAny<BookingRequestDTO>())).ReturnsAsync(expectedResponse);
 
         // Act
         var result = await _controller.CreateBookingRequest(dto);
@@ -57,7 +53,6 @@ public class BookingRequestsControllerTests
         // Assert
         Assert.That(result, Is.InstanceOf<CreatedResult>());
         var createdResult = (CreatedResult)result;
-
         using (Assert.EnterMultipleScope())
         {
             Assert.That(createdResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));

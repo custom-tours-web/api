@@ -1,11 +1,11 @@
 # 🐛 Bug Fix 🔧🚨
 
 ## 🚨 What was the bug? 🔎
-<!-- 📝 Describe the issue you are fixing. What was the expected behavior, and what was actually happening? -->
+<!-- 📝 Describe the issue you are fixing. What was the expected behavior, & what was actually happening? -->
 *
 
 ## 🔍 Root Cause Analysis 🧠
-<!-- 💡 Briefly explain WHY this bug was occurring. (e.g., "The API was returning a null object when a user lacked specific permissions.") -->
+<!-- 💡 Briefly explain WHY this bug was occurring. (e.g., 'The API was returning a null object when a user lacked specific permissions.') -->
 *
 
 ## 🛠️ How was it fixed? 🔨
@@ -13,7 +13,7 @@
 *
 
 ## 🔗 Related Issue(s) 🎯
-<!-- 🔗 Link to any related Jira tickets, GitHub issues, or bug reports (e.g., "Fixes #123") -->
+<!-- 🔗 Link to any related Jira tickets, GitHub issues, or bug reports (e.g., 'Fixes #123') -->
 *
 
 ## ⚠️ Breaking Change Check 💥
@@ -34,15 +34,15 @@
 
 * [ ] ✅ All Unit Tests (UT) have passed.
 * [ ] 🔄 All Integration Tests (IT) have passed.
-* [ ] 🛡️ **Regression tests (UT/IT)** have been added specifically to reproduce the bug and prove the fix works, preventing it from returning. 🐛➡️✅
-* [ ] 📈 Line and Branch Code Coverage is **>= 75%**.
+* [ ] 🛡️ **Regression tests (UT/IT)** have been added specifically to reproduce the bug & prove the fix works, preventing it from returning. 🐛➡️✅
+* [ ] 📈 Line & Branch Code Coverage is **>= 75%**.
 * [ ] 🧬 Mutation Testing score is **>= 75%**.
 
 ### 🧹 Code Quality & Security 🔐
 
 * [ ] 👀 I have performed a self-review of my own code.
 * [ ] 🔒 The fix does not introduce any hardcoded secrets or security vulnerabilities.
-* [ ] 📐 The code follows project linting and architectural guidelines.
+* [ ] 📐 The code follows project linting & architectural guidelines.
 
 ### 🚀 Deployment & Maintenance 🔄
 
@@ -50,7 +50,7 @@
 * [ ] 🔙 A clear rollback plan is documented or inherently supported. ♻️
 
 ## 📸 Test Evidence / Screenshots 🖼️
-<!-- 📎 Attach screenshots, GIFs, videos, logs, or terminal outputs below. For UI bugs, please provide "Before" and "After" screenshots! -->
+<!-- 📎 Attach screenshots, GIFs, videos, logs, or terminal outputs below. For UI bugs, please provide 'Before' & 'After' screenshots! -->
 
 ### 🔴 Before — Bug Reproduction
 <!-- 🐛 Show evidence of the issue before the fix. -->

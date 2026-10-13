@@ -1,23 +1,23 @@
 # 🚑 Production Hotfix 🔥🚨
 
-> ⚡ **Emergency Change** — This PR is intended to restore production stability as quickly and safely as possible. 🛡️🚀
+> ⚡ **Emergency Change** — This PR is intended to restore production stability as quickly & safely as possible. 🛡️🚀
 
 ## 🔥 Incident Details 🚨
 <!-- 🔗 Link to the PagerDuty alert, Slack thread, or Incident ticket. -->
 * 🎫 **Incident Link:**
-* 💼 **Business Impact:** <!-- 👥 E.g., "Users cannot log in on iOS devices." -->
+* 💼 **Business Impact:** <!-- 👥 E.g., 'Users cannot log in on iOS devices.' -->
 * ⏰ **Incident Start Time:**
 * 📊 **Severity:** [🟢 Low / 🟡 Medium / 🟠 High / 🔴 Critical]
 * 👥 **Affected Users / Services:**
 
 ## 🛠️ The Fix 🔧
-<!-- 💡 Briefly explain what is broken and how this code fixes it. -->
+<!-- 💡 Briefly explain what is broken & how this code fixes it. -->
 * 🐛 **Issue:**
 * 🔧 **Fix Applied:**
 * 🎯 **Expected Outcome:**
 
 ## ⚠️ Risk & Rollback 🔄
-<!-- 🚨 Hotfixes are inherently risky. What is the worst-case scenario of this change, and how do we revert it immediately if needed? -->
+<!-- 🚨 Hotfixes are inherently risky. What is the worst-case scenario of this change, & how do we revert it immediately if needed? -->
 * 🎚️ **Risk Level:** [🟢 Low / 🟡 Medium / 🔴 High]
 * ⚠️ **Potential Impact:**
 * 🔙 **Rollback Plan:**
@@ -29,9 +29,9 @@
 * [ ] 👑 A Code Owner has explicitly approved this PR.
 * [ ] 🔍 The root cause has been identified or documented.
 * [ ] 🧪 Critical regression scenarios have been verified.
-* [ ] 📊 Production monitoring and logs have been reviewed.
+* [ ] 📊 Production monitoring & logs have been reviewed.
 * [ ] 🚀 The deployment strategy has been reviewed.
-* [ ] 🔙 The rollback procedure has been verified and is immediately executable.
+* [ ] 🔙 The rollback procedure has been verified & is immediately executable.
 * [ ] 🎫 A follow-up ticket has been created to write proper tests/refactor this code later.
 * [ ] 📢 Relevant stakeholders have been notified of the hotfix.
 * [ ] 👀 Post-deployment verification has been planned.

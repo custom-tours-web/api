@@ -19,9 +19,7 @@ jobs:
 
     steps:
 
-      # ==========================================
-      # 1. ENVIRONMENT & TOOLING SETUP
-      # ==========================================
+      # ENVIRONMENT & TOOLING SETUP
       - name: 📥 Checkout Repository
         uses: actions/checkout@v7
 
@@ -35,25 +33,21 @@ jobs:
       - name: 🔧 Restore Local Tools
         run: dotnet tool restore
 
-      # ==========================================
-      # 2. BUILD & TEST EXECUTION
-      # ==========================================
+      # BUILD & TEST EXECUTION
       - name: 🧹 Clean & Restore Dependencies
-        run: dotnet cake ./scripts/build.cake --target="Restore"
+        run: dotnet cake ./scripts/build.cake --target='Restore'
 
       - name: 🏗️ Build Application
-        run: dotnet cake ./scripts/build.cake --target="Build" --exclusive
+        run: dotnet cake ./scripts/build.cake --target='Build' --exclusive
 
       - name: 🧪 Execute Test Suite
         continue-on-error: true
-        run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
+        run: dotnet cake ./scripts/build.cake --target='Test' --exclusive
 
-      # ==========================================
-      # 3. TEST REPORTING
-      # ==========================================
+      # TEST REPORTING
       - name: 📊 Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
-          files: "artifacts/TestResults/**/*.trx"
-          check_name: "🧪 Run Tests"
+          files: 'artifacts/TestResults/**/*.trx'
+          check_name: '🧪 Run Tests'

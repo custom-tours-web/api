@@ -1,8 +1,6 @@
 <Project>
 
-  <!-- ========================================== -->
-  <!-- 1. CORE FRAMEWORK & LANGUAGE               -->
-  <!-- ========================================== -->
+  <!-- CORE FRAMEWORK & LANGUAGE -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -14,9 +12,7 @@
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
   </PropertyGroup>
 
-  <!-- ========================================== -->
-  <!-- 2. ANALYSIS & CODE QUALITY                 -->
-  <!-- ========================================== -->
+  <!-- ANALYSIS & CODE QUALITY -->
   <PropertyGroup>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -26,11 +22,9 @@
     <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <!-- ========================================== -->
-  <!-- 3. CI/CD, SECURITY & DEBUGGING             -->
-  <!-- ========================================== -->
+  <!-- CI/CD, SECURITY & DEBUGGING -->
 
-  <!-- Deterministic Builds (Triggered only in CI pipelines) -->
+  <!-- Deterministic Builds -->
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Deterministic>true</Deterministic>
@@ -47,16 +41,14 @@
 
   <!-- Debugging & Source Link -->
   <PropertyGroup>
-    <!-- Embeds untracked files and SourceLink metadata for accurate CI crash dumps -->
+    <!-- Embeds untracked files & SourceLink metadata for accurate CI crash dumps -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
-  <!-- ========================================== -->
-  <!-- 4. TEST PROJECT DEFAULTS                   -->
-  <!-- ========================================== -->
+  <!-- TEST PROJECT DEFAULTS -->
   <PropertyGroup Condition="'$(IsTestProject)' == 'true' Or '$(MSBuildProjectName)' == 'ut' Or '$(MSBuildProjectName)' == 'it'">
 
     <!-- Standard Test Project Settings -->

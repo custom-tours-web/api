@@ -1,3 +1,4 @@
+using api.DTOs;
 using api.Interfaces;
 using api.Models;
 using api.Services;
@@ -5,7 +6,6 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using System.Net.Http;
 using System.Net.Mail;
 
 namespace ut.Services;
@@ -48,7 +48,7 @@ public class BookingRequestServiceTests
     private BookingRequestService _service;
 
     /// <summary>
-    /// It initializes the mocked dependencies and creates a new instance of the BookingRequestService for testing.
+    /// It initializes the mocked dependencies & creates a new instance of the BookingRequestService for testing.
     /// </summary>
     [SetUp]
     public void Setup()
@@ -64,7 +64,7 @@ public class BookingRequestServiceTests
             _mockRepository.Object,
             _mockWhatsAppNotifier.Object,
             _mockBookingEmailNotifier.Object,
-            Options.Create(new BookingNotificationFeatures
+            Options.Create(new BookingNotificationFeaturesDTO
             {
                 WhatsAppEnabled = true,
                 EmailEnabled = true
@@ -73,6 +73,9 @@ public class BookingRequestServiceTests
         );
     }
 
+    /// <summary>
+    /// It ensures that the CreateBookingRequestAsync method of the BookingRequestService does not invoke any notification methods
+    /// </summary>
     [Test]
     public async Task CreateBookingRequestAsync_WhenNotificationsAreDisabled_DoesNotInvokeNotifiers()
     {
@@ -86,20 +89,21 @@ public class BookingRequestServiceTests
             _mockRepository.Object,
             _mockWhatsAppNotifier.Object,
             _mockBookingEmailNotifier.Object,
-            Options.Create(new BookingNotificationFeatures()),
+            Options.Create(new BookingNotificationFeaturesDTO()),
             _mockLogger.Object);
 
         var result = await _service.CreateBookingRequestAsync(dto);
 
         Assert.That(result.Id, Is.EqualTo(mappedEntity.Id));
-        _mockWhatsAppNotifier.Verify(
-            n => n.SendBookingNotificationAsync(It.IsAny<BookingRequest>()),
-            Times.Never);
-        _mockBookingEmailNotifier.Verify(
-            n => n.SendBookingNotificationAsync(It.IsAny<BookingRequest>()),
-            Times.Never);
+        _mockWhatsAppNotifier.Verify(n => n.SendBookingNotificationAsync(It.IsAny<BookingRequest>()), Times.Never);
+        _mockBookingEmailNotifier.Verify(n => n.SendBookingNotificationAsync(It.IsAny<BookingRequest>()), Times.Never);
     }
 
+    /// <summary>
+    /// It ensures that the CreateBookingRequestAsync method of the BookingRequestService invokes only the enabled notifier based on the configuration settings.
+    /// </summary>
+    /// <param name="whatsAppEnabled">Feature flag for WhatsApp notifications</param>
+    /// <param name="emailEnabled">Feature flag to control email notifications</param>
     [TestCase(true, false)]
     [TestCase(false, true)]
     public async Task CreateBookingRequestAsync_WhenOnlyOneNotificationIsEnabled_InvokesOnlyThatNotifier(
@@ -111,18 +115,14 @@ public class BookingRequestServiceTests
 
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Returns(mappedEntity);
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).Returns(Task.CompletedTask);
-        _mockWhatsAppNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
-        _mockBookingEmailNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
+        _mockWhatsAppNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
+        _mockBookingEmailNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
         _service = new BookingRequestService(
             _mockMapper.Object,
             _mockRepository.Object,
             _mockWhatsAppNotifier.Object,
             _mockBookingEmailNotifier.Object,
-            Options.Create(new BookingNotificationFeatures
+            Options.Create(new BookingNotificationFeaturesDTO
             {
                 WhatsAppEnabled = whatsAppEnabled,
                 EmailEnabled = emailEnabled
@@ -131,14 +131,13 @@ public class BookingRequestServiceTests
 
         await _service.CreateBookingRequestAsync(dto);
 
-        _mockWhatsAppNotifier.Verify(
-            notifier => notifier.SendBookingNotificationAsync(mappedEntity),
-            whatsAppEnabled ? Times.Once() : Times.Never());
-        _mockBookingEmailNotifier.Verify(
-            notifier => notifier.SendBookingNotificationAsync(mappedEntity),
-            emailEnabled ? Times.Once() : Times.Never());
+        _mockWhatsAppNotifier.Verify(notifier => notifier.SendBookingNotificationAsync(mappedEntity), whatsAppEnabled ? Times.Once() : Times.Never());
+        _mockBookingEmailNotifier.Verify(notifier => notifier.SendBookingNotificationAsync(mappedEntity), emailEnabled ? Times.Once() : Times.Never());
     }
 
+    /// <summary>
+    /// It ensures that the CreateBookingRequestAsync method of the BookingRequestService waits for both notification tasks to complete before returning the response.
+    /// </summary>
     [Test]
     public async Task CreateBookingRequestAsync_WaitsForEnabledNotificationsBeforeReturning()
     {
@@ -149,12 +148,8 @@ public class BookingRequestServiceTests
 
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Returns(mappedEntity);
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).Returns(Task.CompletedTask);
-        _mockWhatsAppNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(whatsAppCompletion.Task);
-        _mockBookingEmailNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(emailCompletion.Task);
+        _mockWhatsAppNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(whatsAppCompletion.Task);
+        _mockBookingEmailNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(emailCompletion.Task);
 
         var resultTask = _service.CreateBookingRequestAsync(dto);
 
@@ -166,6 +161,9 @@ public class BookingRequestServiceTests
         Assert.That(result.Id, Is.EqualTo(mappedEntity.Id));
     }
 
+    /// <summary>
+    /// It ensures that the CreateBookingRequestAsync method of the BookingRequestService correctly handles exceptions thrown by the notifiers
+    /// </summary>
     [Test]
     public async Task CreateBookingRequestAsync_LogsCustomerNameWithoutLineBreaks()
     {
@@ -178,18 +176,14 @@ public class BookingRequestServiceTests
 
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Returns(mappedEntity);
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).Returns(Task.CompletedTask);
-        _mockWhatsAppNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
-        _mockBookingEmailNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
+        _mockWhatsAppNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
+        _mockBookingEmailNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
         _service = new BookingRequestService(
             _mockMapper.Object,
             _mockRepository.Object,
             _mockWhatsAppNotifier.Object,
             _mockBookingEmailNotifier.Object,
-            Options.Create(new BookingNotificationFeatures
+            Options.Create(new BookingNotificationFeaturesDTO
             {
                 WhatsAppEnabled = true,
                 EmailEnabled = true
@@ -198,9 +192,7 @@ public class BookingRequestServiceTests
 
         await _service.CreateBookingRequestAsync(dto);
 
-        Assert.That(
-            logger.DebugMessage,
-            Is.EqualTo("Starting creation of booking request for customer: AdaLovelaceInjected"));
+        Assert.That(logger.DebugMessage, Is.EqualTo("Starting creation of booking request for customer: AdaLovelaceInjected"));
     }
 
     /// <summary>
@@ -215,12 +207,8 @@ public class BookingRequestServiceTests
 
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Returns(mappedEntity);
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).Returns(Task.CompletedTask);
-        _mockWhatsAppNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
-        _mockBookingEmailNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
+        _mockWhatsAppNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
+        _mockBookingEmailNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
 
         // Act
         var result = await _service.CreateBookingRequestAsync(dto);
@@ -240,6 +228,9 @@ public class BookingRequestServiceTests
         _mockBookingEmailNotifier.Verify(n => n.SendBookingNotificationAsync(mappedEntity), Times.Once);
     }
 
+    /// <summary>
+    /// It ensures that the CreateBookingRequestAsync method of the BookingRequestService correctly handles exceptions thrown by the notifiers
+    /// </summary>
     [Test]
     public async Task CreateBookingRequestAsync_WhenWhatsAppFails_ReturnsSuccessfulBookingResponse()
     {
@@ -248,12 +239,8 @@ public class BookingRequestServiceTests
 
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Returns(mappedEntity);
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).Returns(Task.CompletedTask);
-        _mockWhatsAppNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .ThrowsAsync(new HttpRequestException("Meta WhatsApp API unavailable"));
-        _mockBookingEmailNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
+        _mockWhatsAppNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).ThrowsAsync(new HttpRequestException("Meta WhatsApp API unavailable"));
+        _mockBookingEmailNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
 
         var result = await _service.CreateBookingRequestAsync(dto);
 
@@ -262,6 +249,9 @@ public class BookingRequestServiceTests
         _mockBookingEmailNotifier.Verify(n => n.SendBookingNotificationAsync(mappedEntity), Times.Once);
     }
 
+    /// <summary>
+    /// It ensures that the CreateBookingRequestAsync method of the BookingRequestService correctly handles exceptions.
+    /// </summary>
     [Test]
     public async Task CreateBookingRequestAsync_WhenEmailFails_ReturnsSuccessfulBookingResponse()
     {
@@ -270,12 +260,8 @@ public class BookingRequestServiceTests
 
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Returns(mappedEntity);
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).Returns(Task.CompletedTask);
-        _mockWhatsAppNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .Returns(Task.CompletedTask);
-        _mockBookingEmailNotifier
-            .Setup(n => n.SendBookingNotificationAsync(mappedEntity))
-            .ThrowsAsync(new SmtpException("SMTP unavailable"));
+        _mockWhatsAppNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).Returns(Task.CompletedTask);
+        _mockBookingEmailNotifier.Setup(n => n.SendBookingNotificationAsync(mappedEntity)).ThrowsAsync(new SmtpException("SMTP unavailable"));
 
         var result = await _service.CreateBookingRequestAsync(dto);
 
@@ -296,8 +282,7 @@ public class BookingRequestServiceTests
         _mockMapper.Setup(m => m.Map<BookingRequest>(dto)).Throws(expectedException);
 
         // Act & Assert
-        var ex = Assert.ThrowsAsync<AutoMapperMappingException>(
-            async () => await _service.CreateBookingRequestAsync(dto));
+        var ex = Assert.ThrowsAsync<AutoMapperMappingException>(async () => await _service.CreateBookingRequestAsync(dto));
 
         Assert.That(ex.Message, Is.EqualTo("Mapping failed"));
 
@@ -320,8 +305,7 @@ public class BookingRequestServiceTests
         _mockRepository.Setup(r => r.AddAsync(mappedEntity)).ThrowsAsync(expectedException);
 
         // Act & Assert
-        var ex = Assert.ThrowsAsync<InvalidOperationException>(
-            async () => await _service.CreateBookingRequestAsync(dto));
+        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.CreateBookingRequestAsync(dto));
 
         Assert.That(ex.Message, Is.EqualTo("Database connection failed"));
 
@@ -329,24 +313,43 @@ public class BookingRequestServiceTests
         _mockRepository.Verify(r => r.AddAsync(mappedEntity), Times.Once);
     }
 
+    /// <summary>
+    /// It can be used to clean up resources or reset states if necessary.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     private sealed class CapturingLogger<T> : ILogger<T>
     {
+
+        /// <summary>
+        /// It captures the debug message logged by the BookingRequestService for verification in unit tests.
+        /// </summary>
         public string? DebugMessage { get; private set; }
 
-        public IDisposable? BeginScope<TState>(TState state)
-            where TState : notnull => null;
+        /// <summary>
+        /// It begins a logical operation scope for the logger, but in this implementation, it does not perform any actual scoping & returns null.
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="state"></param>
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
 
+        /// <summary>
+        /// It checks if the specified log level is enabled for logging. In this implementation, it always returns true, indicating that all log levels are enabled.
+        /// </summary>
+        /// <param name="logLevel"></param>
         public bool IsEnabled(LogLevel logLevel) => true;
 
-        public void Log<TState>(
-            LogLevel logLevel,
-            EventId eventId,
-            TState state,
-            Exception? exception,
-            Func<TState, Exception?, string> formatter)
+        /// <summary>
+        /// It logs a message with the specified log level, event ID, state, exception, & formatter. If the log level is Debug.
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="logLevel"></param>
+        /// <param name="eventId"></param>
+        /// <param name="state"></param>
+        /// <param name="exception"></param>
+        /// <param name="formatter"></param>
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
-            if (logLevel == LogLevel.Debug)
-                DebugMessage = formatter(state, exception);
+            if (logLevel == LogLevel.Debug) DebugMessage = formatter(state, exception);
         }
     }
 }

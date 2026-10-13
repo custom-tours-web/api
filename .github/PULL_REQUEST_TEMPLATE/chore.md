@@ -1,7 +1,7 @@
 # ♻️ Refactor / Chore 🧹🔧
 
 ## 📝 What does this PR do? 🛠️
-<!-- 💡 Describe the specific changes (e.g., "Upgraded Coverlet from v3 to v4", "Refactored the UserAuth service to use dependency injection", "Updated GitHub Actions runner"). -->
+<!-- 💡 Describe the specific changes (e.g., 'Upgraded Coverlet from v3 to v4', 'Refactored the UserAuth service to use dependency injection', 'Updated GitHub Actions runner'). -->
 *
 
 ## 💡 Why is this necessary? 🎯
@@ -9,7 +9,7 @@
 *
 
 ## 🔍 Impact Area 🗺️
-<!-- 📌 What parts of the codebase or pipeline does this touch? (e.g., "Only touches the .github/workflows directory" or "Touches all Data Access repositories"). -->
+<!-- 📌 What parts of the codebase or pipeline does this touch? (e.g., 'Only touches the .github/workflows directory' or 'Touches all Data Access repositories'). -->
 *
 
 ## 🔗 Related Issue(s) 🎫
@@ -17,7 +17,7 @@
 *
 
 ## ⚠️ Breaking Change Check 💥
-<!-- 🚨 Refactors and chores should ideally be invisible to the end user. Does this change any consumer-facing APIs, contracts, or build processes? -->
+<!-- 🚨 Refactors & chores should ideally be invisible to the end user. Does this change any consumer-facing APIs, contracts, or build processes? -->
 * [ ] 🟢 **No**, there are no breaking changes. ✅
 * [ ] 🔴 **Yes**, this contains breaking changes. 💥 *(If yes, please detail the impact below).*
   * 📌 **Details:**
@@ -45,7 +45,7 @@
 * [ ] 👀 I have performed a self-review of my own code.
 * [ ] 🛡️ No new security vulnerabilities or outdated dependencies were introduced.
 * [ ] 📦 Dependency changes have been reviewed for compatibility.
-* [ ] 📐 The code complies with current linting and architectural standards.
+* [ ] 📐 The code complies with current linting & architectural standards.
 * [ ] 🧼 Unused code, imports, configurations, or dependencies have been removed where applicable.
 
 ### 🚀 Deployment & Maintenance 🔄
@@ -53,7 +53,7 @@
 * [ ] 📚 Any required documentation (e.g., README instructions for local setup) has been updated.
 * [ ] 🔙 A clear rollback plan is documented or inherently supported.
 * [ ] ⚙️ CI/CD workflows continue to execute successfully.
-* [ ] 📦 Build and deployment processes remain functional.
+* [ ] 📦 Build & deployment processes remain functional.
 
 ## 📸 Evidence / Notes for Reviewer 👀
 <!-- 📝 For dependency updates, attach proof of successful local builds. For UI/Code refactors, call out specific areas the reviewer should pay close attention to. -->

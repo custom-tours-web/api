@@ -2,8 +2,6 @@ using api.Datas;
 using api.Models;
 using api.Repositories;
 using Microsoft.EntityFrameworkCore;
-// Make sure to add the correct using statement for your Data namespace here
-// e.g., using ut.Data;
 
 namespace ut.Repositories;
 
@@ -30,23 +28,19 @@ public class BookingRequestRepositoryTests
     private BookingRequestRepository _repository;
 
     /// <summary>
-    /// This ensures that each test runs in isolation with a fresh database context and repository instance.
+    /// This ensures that each test runs in isolation with a fresh database context & repository instance.
     /// </summary>
     [SetUp]
     public void Setup()
     {
 
-        _dbContextOptions = new DbContextOptionsBuilder<TourismDbContext>()
-            .UseInMemoryDatabase(databaseName: $"TourismDb_Test_{Guid.NewGuid()}")
-            .Options;
-
+        _dbContextOptions = new DbContextOptionsBuilder<TourismDbContext>().UseInMemoryDatabase(databaseName: $"TourismDb_Test_{Guid.NewGuid()}").Options;
         _dbContext = new TourismDbContext(_dbContextOptions);
-
         _repository = new BookingRequestRepository(_dbContext);
     }
 
     /// <summary>
-    /// It ensures that the in-memory database is deleted and the DbContext is disposed
+    /// It ensures that the in-memory database is deleted & the DbContext is disposed
     /// </summary>
     [TearDown]
     public void TearDown()
@@ -84,8 +78,7 @@ public class BookingRequestRepositoryTests
         BookingRequest nullRequest = null!;
 
         // Act & Assert
-        var ex = Assert.ThrowsAsync<ArgumentNullException>(
-            async () => await _repository.AddAsync(nullRequest));
+        var ex = Assert.ThrowsAsync<ArgumentNullException>(async () => await _repository.AddAsync(nullRequest));
 
         Assert.That(ex.ParamName, Is.EqualTo("entity"));
     }

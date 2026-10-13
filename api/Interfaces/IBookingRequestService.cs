@@ -10,7 +10,7 @@ public interface IBookingRequestService
     #region Methods
 
     /// <summary>
-    /// Asynchronously processes and creates a new booking request.
+    /// Asynchronously processes & creates a new booking request.
     /// </summary>
     /// <param name="dto">The data transfer object containing the necessary booking details.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the booking response details.</returns>

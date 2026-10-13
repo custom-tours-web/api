@@ -1,6 +1,4 @@
-# ==============================================================================
 # 🚀 .NET API Continuous Integration (CI) Workflow via Cake
-# ==============================================================================
 
 name: 🚀 CI
 
@@ -36,9 +34,7 @@ jobs:
 
     steps:
 
-      # ==========================================
-      # 1. ENVIRONMENT & TOOLING SETUP
-      # ==========================================
+      # ENVIRONMENT & TOOLING SETUP
       - name: 🛒 Checkout Code
         uses: actions/checkout@v7
 
@@ -52,39 +48,35 @@ jobs:
       - name: 🔧 Restore Local Tools
         run: dotnet tool restore
 
-      # ==========================================
-      # 2. BUILD, TEST & MUTATION EXECUTION
-      # ==========================================
+      # BUILD, TEST & MUTATION EXECUTION
       - name: 🧹 Clean & Restore Dependencies
-        run: dotnet cake ./scripts/build.cake --target="Restore"
+        run: dotnet cake ./scripts/build.cake --target='Restore'
 
       - name: 🏗️ Build Application
-        run: dotnet cake ./scripts/build.cake --target="Build" --exclusive
+        run: dotnet cake ./scripts/build.cake --target='Build' --exclusive
 
       - name: 🧪 Execute Test Suite
-        run: dotnet cake ./scripts/build.cake --target="Test" --exclusive
+        run: dotnet cake ./scripts/build.cake --target='Test' --exclusive
 
       - name: 🧬 Run Mutation Tests
-        run: dotnet cake ./scripts/build.cake --target="Mutation-Test" --exclusive
+        run: dotnet cake ./scripts/build.cake --target='Mutation-Test' --exclusive
 
       - name: 📦 Package Application
-        run: dotnet cake ./scripts/build.cake --target="Package" --exclusive
+        run: dotnet cake ./scripts/build.cake --target='Package' --exclusive
 
-      # ==========================================
-      # 3. UNIT TEST REPORTING & COVERAGE SUMMARY
-      # ==========================================
+      # UNIT TEST REPORTING & COVERAGE SUMMARY
       - name: 📋 Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
-          check_name: "🧪 Unit Test Results"
-          files: "artifacts/TestResults/ut/**/*.trx"
+          check_name: '🧪 Unit Test Results'
+          files: 'artifacts/TestResults/ut/**/*.trx'
 
       - name: 📈 Process Unit Test Coverage
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: always()
         with:
-          filename: "artifacts/TestResults/ut/**/*.xml"
+          filename: 'artifacts/TestResults/ut/**/*.xml'
           badge: true
           format: markdown
           output: both
@@ -95,28 +87,26 @@ jobs:
       - name: 📝 Write UT Coverage to Job Summary
         if: always()
         run: |
-          echo "### 🧪 Unit Test Coverage" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '### 🧪 Unit Test Coverage' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '---' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
 
-      # ==========================================
-      # 4. INTEGRATION TEST REPORTING & COVERAGE
-      # ==========================================
+      # INTEGRATION TEST REPORTING & COVERAGE
       - name: 📋 Publish Integration Test Results
         uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
-          check_name: "🔗 Integration Test Results"
-          files: "artifacts/TestResults/it/**/*.trx"
+          check_name: '🔗 Integration Test Results'
+          files: 'artifacts/TestResults/it/**/*.trx'
 
       - name: 📈 Process Integration Test Coverage
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: always()
         with:
-          filename: "artifacts/TestResults/it/**/*.xml"
+          filename: 'artifacts/TestResults/it/**/*.xml'
           badge: true
           format: markdown
           output: both
@@ -127,37 +117,33 @@ jobs:
       - name: 📝 Write IT Coverage to Job Summary
         if: always()
         run: |
-          echo "### 🔗 Integration Test Coverage" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '### 🔗 Integration Test Coverage' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '---' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
 
-      # ==========================================
-      # 5. MUTATION TEST REPORTING & JOB SUMMARY
-      # ==========================================
+      # MUTATION TEST REPORTING & JOB SUMMARY
       - name: 📝 Write Mutation Report to Summary
         if: always()
         run: |
-          echo "### 🧬 Stryker Mutation Testing Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '### 🧬 Stryker Mutation Testing Summary' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
 
-          REPORT_FILE=$(find StrykerOutput -name "mutation-report.md" | head -n 1)
+          REPORT_FILE=$(find StrykerOutput -name 'mutation-report.md' | head -n 1)
 
-          if [ -n "$REPORT_FILE" ] && [ -f "$REPORT_FILE" ]; then
-            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
+          if [ -n '$REPORT_FILE' ] && [ -f '$REPORT_FILE' ]; then
+            cat '$REPORT_FILE' >> $GITHUB_STEP_SUMMARY
           else
-            echo "⚠️ *Mutation report not found. Check the Stryker logs for errors.*" >> $GITHUB_STEP_SUMMARY
+            echo '⚠️ *Mutation report not found. Check the Stryker logs for errors.*' >> $GITHUB_STEP_SUMMARY
           fi
 
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '---' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
 
-      # ==========================================
-      # 6. ARTIFACT ARCHIVING & RELEASE PACKAGING
-      # ==========================================
+      # ARTIFACT ARCHIVING & RELEASE PACKAGING
       - name: 📦 Upload Test Results & Coverage Artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -171,7 +157,7 @@ jobs:
         if: always()
         with:
           name: stryker-mutation-report
-          path: "StrykerOutput/**/reports/*"
+          path: 'StrykerOutput/**/reports/*'
           if-no-files-found: warn
 
       - name: 📦 Upload App Release Binaries

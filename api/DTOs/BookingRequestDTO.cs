@@ -33,32 +33,14 @@ public record BookingRequestDTO(
     /// <returns>A collection of validation results indicating whether the object is valid.</returns>
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        // Validate that the start and end destinations are distinct locations
-        if (string.Equals(CurrentLocation, Destination, StringComparison.OrdinalIgnoreCase))
-        {
-            yield return new ValidationResult(
-                "Current Location and Destination cannot be the same.",
-                [nameof(CurrentLocation), nameof(Destination)]
-            );
-        }
+        // Validate that the start & end destinations are distinct locations
+        if (string.Equals(CurrentLocation, Destination, StringComparison.OrdinalIgnoreCase)) yield return new ValidationResult("Current Location & Destination cannot be the same.", [nameof(CurrentLocation), nameof(Destination)]);
 
         // Validate that the tour date is strictly in the future
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
-        if (FromDate <= today)
-        {
-            yield return new ValidationResult(
-                "Tour start date must be in the future.",
-                [nameof(FromDate)]
-            );
-        }
+        if (FromDate <= today) yield return new ValidationResult("Tour start date must be in the future.", [nameof(FromDate)]);
 
-        if (ToDate < FromDate)
-        {
-            yield return new ValidationResult(
-                "Tour end date cannot be before the start date.",
-                [nameof(ToDate)]
-            );
-        }
+        if (ToDate < FromDate) yield return new ValidationResult( "Tour end date cannot be before the start date.", [nameof(ToDate)]);
     }
 
     #endregion

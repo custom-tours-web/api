@@ -18,7 +18,7 @@ public enum BookingRequestStatus
     Contacted = 1,
 
     /// <summary>
-    /// The booking request has been finalized and confirmed.
+    /// The booking request has been finalized & confirmed.
     /// </summary>
     Confirmed = 2,
 
